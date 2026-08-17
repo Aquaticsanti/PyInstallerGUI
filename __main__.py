@@ -31,6 +31,14 @@ scripLocationOpenButton = Button(scriptLocationFrame, text="Open", command=openS
 scripLocationOpenButton.pack(side=LEFT, anchor=N)
 
 
+appNameFrame = Frame(root, padding=(15, 25))
+appNameFrame.pack(side=TOP, anchor=W)
+
+appNameLabel = Label(appNameFrame, text="App Name:")
+appNameLabel.pack(side=LEFT, anchor=N)
+
+appNameEntry = Entry(appNameFrame, width=30)
+appNameEntry.pack(side=LEFT, anchor=N)
 
 # Execute Tkinter
 root.mainloop()
