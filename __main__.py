@@ -36,8 +36,8 @@ scripLocationOpenButton.pack(side=LEFT, anchor=N)
 
 notScriptLocationFrame = Frame(root)
 notScriptLocationFrame.pack(side=TOP, anchor=W)
-appNameFrame = Frame(notScriptLocationFrame, padding=(15, 25))
-appNameFrame.grid(column=0, row=0)
+appNameFrame = Frame(notScriptLocationFrame, padding=(15, 5))
+appNameFrame.grid(column=0, row=0, sticky=N)
 
 appNameLabel = Label(appNameFrame, text="App Name:")
 appNameLabel.pack(side=LEFT, anchor=N)
@@ -46,8 +46,8 @@ appNameEntry = Entry(appNameFrame, width=30)
 appNameEntry.pack(side=LEFT, anchor=N)
 
 
-appLogoFrame = Frame(notScriptLocationFrame, padding=(15, 0))
-appLogoFrame.grid(column=0, row=1)
+appLogoFrame = Frame(notScriptLocationFrame, padding=(0, 0))
+appLogoFrame.grid(column=0, row=1, sticky=N)
 
 appLogoLabel = Label(appLogoFrame, text="App Logo:")
 appLogoLabel.pack(side=TOP, anchor=N)
@@ -67,7 +67,7 @@ appLogoButton.pack(side=TOP, anchor=N, ipadx=40, ipady=40)
 
 
 flagsFrame = Frame(notScriptLocationFrame)
-flagsFrame.grid(column=1, row=0)
+flagsFrame.grid(column=1, row=0, rowspan=2, sticky=N)
 
 
 def getDistFolder():
