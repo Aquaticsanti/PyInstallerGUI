@@ -113,8 +113,29 @@ workpathEntry.pack(side=LEFT)
 workpathOpenButton = Button(workpathFrame, text="Open", command=getWorkFolder)
 workpathOpenButton.pack(side=LEFT, anchor=N)
 
+def getspecFolder():
+    global specFolder, specpathEntry
+    specFolder = askdirectory()
+    if specFolder is None:
+            pass
+    else:
+        specpathEntry.delete(0, -1)
+        specpathEntry.insert(0, specFolder)
+
+specpathFrame = Frame(flagsFrame)
+specpathFrame.grid(column=0, row=2, sticky="w")
+
+specpathLabel = Label(specpathFrame, text=".spec file destination:")
+specpathLabel.pack(side=LEFT)
+
+specpathEntry = Entry(specpathFrame, width=36)
+specpathEntry.pack(side=LEFT)
+
+specpathOpenButton = Button(specpathFrame, text="Open", command=getspecFolder)
+specpathOpenButton.pack(side=LEFT, anchor=N)
+
 noConfirmFrame = Frame(flagsFrame)
-noConfirmFrame.grid(column=0, row=2, sticky="w")
+noConfirmFrame.grid(column=0, row=3, sticky="w")
 
 noConfirm = BooleanVar(root, False)
 noConfirmCheckbox = Checkbutton(noConfirmFrame, variable=noConfirm, text="Replace output directory without confirmation")
@@ -122,7 +143,7 @@ noConfirmCheckbox.pack(side=LEFT)
 
 
 cleanFrame = Frame(flagsFrame)
-cleanFrame.grid(column=0, row=3, sticky="w")
+cleanFrame.grid(column=0, row=4, sticky="w")
 
 clean = BooleanVar(root, False)
 cleanCheckbox = Checkbutton(cleanFrame, variable=clean, text="Clean cache and remove temporary files before building")
@@ -130,7 +151,7 @@ cleanCheckbox.pack(side=LEFT)
 
 
 logFrame = Frame(flagsFrame)
-logFrame.grid(column=0, row=4, sticky="w")
+logFrame.grid(column=0, row=5, sticky="w")
 
 logLabel = Label(logFrame, text="Log level:")
 logLabel.pack(side=LEFT)
@@ -142,7 +163,7 @@ logOptionsMenu.pack(side=LEFT)
 
 
 bundleTypeFrame = Frame(flagsFrame)
-bundleTypeFrame.grid(column=0, row=5, sticky="w")
+bundleTypeFrame.grid(column=0, row=6, sticky="w")
 
 bundleType = StringVar()
 
