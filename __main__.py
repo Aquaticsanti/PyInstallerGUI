@@ -63,5 +63,32 @@ appLogoImage = ImageTk.PhotoImage(Image.open(appLogo).resize((160, 160)))
 appLogoButton = Button(appLogoFrame, image=appLogoImage, compound=CENTER, text="", command=getAppLogo)
 appLogoButton.pack(side=TOP, anchor=N, ipadx=40, ipady=40)
 
+
+
+flagsFrame = Frame(notScriptLocationFrame)
+flagsFrame.grid(column=1, row=0)
+
+
+def getDistFolder():
+    global distFolder, distpathEntry
+    distFolder = askdirectory()
+    if distFolder is None:
+            pass
+    else:
+        distpathEntry.delete(0, -1)
+        distpathEntry.insert(0, distFolder)
+
+distpathFrame = Frame(flagsFrame)
+distpathFrame.grid(column=0, row=0)
+
+distpathLabel = Label(distpathFrame, text="     Bundled app destination:")
+distpathLabel.pack(side=LEFT)
+
+distpathEntry = Entry(distpathFrame, width=30)
+distpathEntry.pack(side=LEFT)
+
+distpathOpenButton = Button(distpathFrame, text="Open", command=getDistFolder)
+distpathOpenButton.pack(side=LEFT, anchor=N)
+
 # Execute Tkinter
 root.mainloop()
