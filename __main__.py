@@ -80,12 +80,12 @@ def getDistFolder():
         distpathEntry.insert(0, distFolder)
 
 distpathFrame = Frame(flagsFrame)
-distpathFrame.grid(column=0, row=0)
+distpathFrame.grid(column=0, row=0, sticky="w")
 
-distpathLabel = Label(distpathFrame, text="     Bundled app destination:")
+distpathLabel = Label(distpathFrame, text="Bundled app destination:")
 distpathLabel.pack(side=LEFT)
 
-distpathEntry = Entry(distpathFrame, width=30)
+distpathEntry = Entry(distpathFrame, width=32)
 distpathEntry.pack(side=LEFT)
 
 distpathOpenButton = Button(distpathFrame, text="Open", command=getDistFolder)
@@ -102,7 +102,7 @@ def getWorkFolder():
         workpathEntry.insert(0, workFolder)
 
 workpathFrame = Frame(flagsFrame)
-workpathFrame.grid(column=0, row=1)
+workpathFrame.grid(column=0, row=1, sticky="w")
 
 workpathLabel = Label(workpathFrame, text="Temporary files destination:")
 workpathLabel.pack(side=LEFT)
@@ -114,7 +114,7 @@ workpathOpenButton = Button(workpathFrame, text="Open", command=getWorkFolder)
 workpathOpenButton.pack(side=LEFT, anchor=N)
 
 noConfirmFrame = Frame(flagsFrame)
-noConfirmFrame.grid(column=0, row=2)
+noConfirmFrame.grid(column=0, row=2, sticky="w")
 
 noConfirm = BooleanVar(root, False)
 noConfirmCheckbox = Checkbutton(noConfirmFrame, variable=noConfirm, text="Replace output directory without confirmation")
@@ -122,7 +122,7 @@ noConfirmCheckbox.pack(side=LEFT)
 
 
 cleanFrame = Frame(flagsFrame)
-cleanFrame.grid(column=0, row=3)
+cleanFrame.grid(column=0, row=3, sticky="w")
 
 clean = BooleanVar(root, False)
 cleanCheckbox = Checkbutton(cleanFrame, variable=clean, text="Clean cache and remove temporary files before building")
