@@ -10,7 +10,7 @@ root = Tk()
 
 root.title("PyInstallerGUI")
 root.geometry('700x400')
-#root.resizable(False, False)
+root.resizable(False, False)
 
 
 def openScript():
