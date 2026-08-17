@@ -14,9 +14,12 @@ root.resizable(False, False)
 
 def openScript():
     global scriptLocationEntry
-    file = askopenfile()
-    scriptLocationEntry.delete(0, -1)
-    scriptLocationEntry.insert(0, file.name)
+    file = askopenfile(filetypes=[("Python script file", ".py"), ("PyInstaller spec files", ".spec")])
+    if file is None:
+        pass
+    else:
+        scriptLocationEntry.delete(0, -1)
+        scriptLocationEntry.insert(0, file.name)
 
 scriptLocationFrame = Frame(root)
 scriptLocationFrame.pack(side=TOP)
