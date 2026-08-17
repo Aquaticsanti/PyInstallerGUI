@@ -116,10 +116,8 @@ workpathOpenButton.pack(side=LEFT, anchor=N)
 noConfirmFrame = Frame(flagsFrame)
 noConfirmFrame.grid(column=0, row=2)
 
-noConfirm = False
+noConfirm = BooleanVar(root, False)
 noConfirmCheckbox = Checkbutton(noConfirmFrame, variable=noConfirm, text="Replace output directory without confirmation")
-noConfirmCheckbox.invoke()
-noConfirmCheckbox.invoke() # So it's shown as false by default
 noConfirmCheckbox.pack(side=LEFT)
 # Execute Tkinter
 root.mainloop()
