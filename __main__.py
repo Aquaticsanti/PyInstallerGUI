@@ -139,5 +139,18 @@ logLevel = StringVar(value="INFO")
 logOptionsMenu = Combobox(logFrame, textvariable=logLevel, values=["TRACE", "DEBUG", "INFO", "WARN", "DEPRECATION", "ERROR", "FATAL"],
                           state="readonly", width=10)
 logOptionsMenu.pack(side=LEFT)
+
+
+bundleTypeFrame = Frame(flagsFrame)
+bundleTypeFrame.grid(column=0, row=5, sticky="w")
+
+bundleType = StringVar()
+
+bundleTypeOneFileRadioButton = Radiobutton(bundleTypeFrame, text="One-file bundle", variable=bundleType, value="-F")
+bundleTypeOneFileRadioButton.pack(side=TOP, anchor=W)
+
+bundleTypeOnedirectoryRadioButton = Radiobutton(bundleTypeFrame, text="One-folder bundle", variable=bundleType, value="-D")
+bundleTypeOnedirectoryRadioButton.pack(side=TOP, anchor=W)
+
 # Execute Tkinter
 root.mainloop()
