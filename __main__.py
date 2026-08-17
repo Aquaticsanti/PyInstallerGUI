@@ -127,5 +127,17 @@ cleanFrame.grid(column=0, row=3, sticky="w")
 clean = BooleanVar(root, False)
 cleanCheckbox = Checkbutton(cleanFrame, variable=clean, text="Clean cache and remove temporary files before building")
 cleanCheckbox.pack(side=LEFT)
+
+
+logFrame = Frame(flagsFrame)
+logFrame.grid(column=0, row=4, sticky="w")
+
+logLabel = Label(logFrame, text="Log level:")
+logLabel.pack(side=LEFT)
+
+logLevel = StringVar(value="INFO")
+logOptionsMenu = Combobox(logFrame, textvariable=logLevel, values=["TRACE", "DEBUG", "INFO", "WARN", "DEPRECATION", "ERROR", "FATAL"],
+                          state="readonly", width=10)
+logOptionsMenu.pack(side=LEFT)
 # Execute Tkinter
 root.mainloop()
