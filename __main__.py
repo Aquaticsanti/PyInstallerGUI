@@ -119,5 +119,13 @@ noConfirmFrame.grid(column=0, row=2)
 noConfirm = BooleanVar(root, False)
 noConfirmCheckbox = Checkbutton(noConfirmFrame, variable=noConfirm, text="Replace output directory without confirmation")
 noConfirmCheckbox.pack(side=LEFT)
+
+
+cleanFrame = Frame(flagsFrame)
+cleanFrame.grid(column=0, row=3)
+
+clean = BooleanVar(root, False)
+cleanCheckbox = Checkbutton(cleanFrame, variable=clean, text="Clean cache and remove temporary files before building")
+cleanCheckbox.pack(side=LEFT)
 # Execute Tkinter
 root.mainloop()
