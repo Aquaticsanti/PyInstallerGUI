@@ -197,12 +197,16 @@ hideConsoleOptionsMenu = Combobox(hideConsoleFrame, textvariable=hideConsoleLeve
 hideConsoleOptionsMenu.pack(side=LEFT)
 
 windowed = BooleanVar(root, False)
+noWindowedTraceback = BooleanVar(root, False)
 def removeHideConsole():
     global windowed
     if windowed.get() == False:
         hideConsoleFrame.grid(column=0, row=9, sticky="w")
+        noWindowedTracebackFrame.grid_remove()
+        noWindowedTraceback.set(False)
     else:
         hideConsoleFrame.grid_remove()
+        noWindowedTracebackFrame.grid(column=0, row=10, sticky="w")
 
 windowedFrame = Frame(flagsFrame)
 windowedFrame.grid(column=0, row=8, sticky="w")
@@ -212,9 +216,7 @@ windowedCheckbox = Checkbutton(windowedFrame, variable=windowed, text="Package a
 windowedCheckbox.pack(side=LEFT)
 
 noWindowedTracebackFrame = Frame(flagsFrame)
-noWindowedTracebackFrame.grid(column=0, row=10, sticky="w")
 
-noWindowedTraceback = BooleanVar(root, False)
 noWindowedTracebackCheckbox = Checkbutton(noWindowedTracebackFrame, variable=noWindowedTraceback, 
                                         text="Replace traceback dump for disabled feature message (Only in windowed mode)")
 noWindowedTracebackCheckbox.pack(side=LEFT)
@@ -227,7 +229,7 @@ UacAdminCheckbox = Checkbutton(UacAdminFrame, variable=UacAdmin, text="Ask for a
 UacAdminCheckbox.pack(side=LEFT)
 
 UacUiAccessFrame = Frame(flagsFrame)
-UacUiAccessFrame.grid(column=0, row=11, sticky="w")
+UacUiAccessFrame.grid(column=0, row=12, sticky="w")
 
 UacUiAccess = BooleanVar(root, False)
 UacUiAccessCheckbox = Checkbutton(UacUiAccessFrame, variable=UacUiAccess, text="Allow this admin app to work with Remote Desktop")
