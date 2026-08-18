@@ -9,7 +9,7 @@ root = Tk()
 
 
 root.title("PyInstallerGUI")
-root.geometry('700x400')
+root.geometry('750x400')
 root.resizable(False, False)
 
 
@@ -200,5 +200,13 @@ hideConsoleLevel = StringVar(value="None")
 hideConsoleOptionsMenu = Combobox(hideConsoleFrame, textvariable=hideConsoleLevel, values=["None", "Minimize Early", 
                                     "Hide Late", "Minimize Late", "Hide Early"], state="readonly", width=10)
 hideConsoleOptionsMenu.pack(side=LEFT)
+
+noWindowedTracebackFrame = Frame(flagsFrame)
+noWindowedTracebackFrame.grid(column=0, row=10, sticky="w")
+
+noWindowedTraceback = BooleanVar(root, False)
+noWindowedTracebackCheckbox = Checkbutton(noWindowedTracebackFrame, variable=noWindowedTraceback, 
+                                        text="Replace traceback dump for disabled feature message (Only in windowed mode)")
+noWindowedTracebackCheckbox.pack(side=LEFT)
 # Execute Tkinter
 root.mainloop()
