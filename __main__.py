@@ -221,17 +221,24 @@ noWindowedTracebackCheckbox = Checkbutton(noWindowedTracebackFrame, variable=noW
                                         text="Replace traceback dump for disabled feature message (Only in windowed mode)")
 noWindowedTracebackCheckbox.pack(side=LEFT)
 
+UacAdmin = BooleanVar(root, False)
+UacUiAccess = BooleanVar(root, False)
+def removeUacUiAccess():
+    global UacAdmin
+    if UacAdmin.get() == True:
+        UacUiAccessFrame.grid(column=0, row=12, sticky="w")
+    else:
+        UacUiAccessFrame.grid_remove()
+        UacUiAccess.set(False)
 UacAdminFrame = Frame(flagsFrame)
 UacAdminFrame.grid(column=0, row=11, sticky="w")
 
-UacAdmin = BooleanVar(root, False)
-UacAdminCheckbox = Checkbutton(UacAdminFrame, variable=UacAdmin, text="Ask for admin elevation upon app start")
+UacAdminCheckbox = Checkbutton(UacAdminFrame, variable=UacAdmin, text="Ask for admin elevation upon app start",
+                                command=removeUacUiAccess)
 UacAdminCheckbox.pack(side=LEFT)
 
 UacUiAccessFrame = Frame(flagsFrame)
-UacUiAccessFrame.grid(column=0, row=12, sticky="w")
 
-UacUiAccess = BooleanVar(root, False)
 UacUiAccessCheckbox = Checkbutton(UacUiAccessFrame, variable=UacUiAccess, text="Allow this admin app to work with Remote Desktop")
 UacUiAccessCheckbox.pack(side=LEFT)
 # Execute Tkinter
