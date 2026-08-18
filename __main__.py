@@ -183,7 +183,12 @@ bundleTypeOneFileRadioButton.pack(side=TOP, anchor=W)
 bundleTypeOnedirectoryRadioButton = Radiobutton(bundleTypeFrame, text="One-folder bundle", variable=bundleType, value="-D")
 bundleTypeOnedirectoryRadioButton.pack(side=TOP, anchor=W)
 
+windowedFrame = Frame(flagsFrame)
+windowedFrame.grid(column=0, row=8, sticky="w")
 
+windowed = BooleanVar(root, False)
+windowedCheckbox = Checkbutton(windowedFrame, variable=windowed, text="Package as a windowed app (no console window)")
+windowedCheckbox.pack(side=LEFT)
 
 # Execute Tkinter
 root.mainloop()
