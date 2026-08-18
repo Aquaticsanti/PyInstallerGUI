@@ -190,5 +190,15 @@ windowed = BooleanVar(root, False)
 windowedCheckbox = Checkbutton(windowedFrame, variable=windowed, text="Package as a windowed app (no console window)")
 windowedCheckbox.pack(side=LEFT)
 
+hideConsoleFrame = Frame(flagsFrame)
+hideConsoleFrame.grid(column=0, row=9, sticky="w")
+
+hideConsoleLabel = Label(hideConsoleFrame, text="Hide console:")
+hideConsoleLabel.pack(side=LEFT)
+
+hideConsoleLevel = StringVar(value="None")
+hideConsoleOptionsMenu = Combobox(hideConsoleFrame, textvariable=hideConsoleLevel, values=["None", "Minimize Early", 
+                                    "Hide Late", "Minimize Late", "Hide Early"], state="readonly", width=10)
+hideConsoleOptionsMenu.pack(side=LEFT)
 # Execute Tkinter
 root.mainloop()
