@@ -215,5 +215,12 @@ UacAdminFrame.grid(column=0, row=11, sticky="w")
 UacAdmin = BooleanVar(root, False)
 UacAdminCheckbox = Checkbutton(UacAdminFrame, variable=UacAdmin, text="Ask for admin elevation upon app start")
 UacAdminCheckbox.pack(side=LEFT)
+
+UacUiAccessFrame = Frame(flagsFrame)
+UacUiAccessFrame.grid(column=0, row=11, sticky="w")
+
+UacUiAccess = BooleanVar(root, False)
+UacUiAccessCheckbox = Checkbutton(UacUiAccessFrame, variable=UacUiAccess, text="Allow this admin app to work with Remote Desktop")
+UacUiAccessCheckbox.pack(side=LEFT)
 # Execute Tkinter
 root.mainloop()
