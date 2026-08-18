@@ -208,5 +208,12 @@ noWindowedTraceback = BooleanVar(root, False)
 noWindowedTracebackCheckbox = Checkbutton(noWindowedTracebackFrame, variable=noWindowedTraceback, 
                                         text="Replace traceback dump for disabled feature message (Only in windowed mode)")
 noWindowedTracebackCheckbox.pack(side=LEFT)
+
+UacAdminFrame = Frame(flagsFrame)
+UacAdminFrame.grid(column=0, row=11, sticky="w")
+
+UacAdmin = BooleanVar(root, False)
+UacAdminCheckbox = Checkbutton(UacAdminFrame, variable=UacAdmin, text="Ask for admin elevation upon app start")
+UacAdminCheckbox.pack(side=LEFT)
 # Execute Tkinter
 root.mainloop()
