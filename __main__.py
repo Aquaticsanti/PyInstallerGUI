@@ -183,12 +183,7 @@ bundleTypeOneFileRadioButton.pack(side=TOP, anchor=W)
 bundleTypeOnedirectoryRadioButton = Radiobutton(bundleTypeFrame, text="One-folder bundle", variable=bundleType, value="-D")
 bundleTypeOnedirectoryRadioButton.pack(side=TOP, anchor=W)
 
-windowedFrame = Frame(flagsFrame)
-windowedFrame.grid(column=0, row=8, sticky="w")
 
-windowed = BooleanVar(root, False)
-windowedCheckbox = Checkbutton(windowedFrame, variable=windowed, text="Package as a windowed app (no console window)")
-windowedCheckbox.pack(side=LEFT)
 
 hideConsoleFrame = Frame(flagsFrame)
 hideConsoleFrame.grid(column=0, row=9, sticky="w")
@@ -200,6 +195,21 @@ hideConsoleLevel = StringVar(value="None")
 hideConsoleOptionsMenu = Combobox(hideConsoleFrame, textvariable=hideConsoleLevel, values=["None", "Minimize Early", 
                                     "Hide Late", "Minimize Late", "Hide Early"], state="readonly", width=10)
 hideConsoleOptionsMenu.pack(side=LEFT)
+
+windowed = BooleanVar(root, False)
+def removeHideConsole():
+    global windowed
+    if windowed.get() == False:
+        hideConsoleFrame.grid(column=0, row=9, sticky="w")
+    else:
+        hideConsoleFrame.grid_remove()
+
+windowedFrame = Frame(flagsFrame)
+windowedFrame.grid(column=0, row=8, sticky="w")
+
+windowedCheckbox = Checkbutton(windowedFrame, variable=windowed, text="Package as a windowed app (no console window)",
+                                command=removeHideConsole)
+windowedCheckbox.pack(side=LEFT)
 
 noWindowedTracebackFrame = Frame(flagsFrame)
 noWindowedTracebackFrame.grid(column=0, row=10, sticky="w")
