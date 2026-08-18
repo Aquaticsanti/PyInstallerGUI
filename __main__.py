@@ -161,9 +161,19 @@ logOptionsMenu = Combobox(logFrame, textvariable=logLevel, values=["TRACE", "DEB
                           state="readonly", width=10)
 logOptionsMenu.pack(side=LEFT)
 
+debugFrame = Frame(flagsFrame)
+debugFrame.grid(column=0, row=6, sticky="w")
+
+debugLabel = Label(debugFrame, text="Debug level:")
+debugLabel.pack(side=LEFT)
+
+debugLevel = StringVar(value="None")
+debugOptionsMenu = Combobox(debugFrame, textvariable=debugLevel, values=["None", "All", "Imports", "Bootloader", "NoArchive"],
+                          state="readonly", width=10)
+debugOptionsMenu.pack(side=LEFT)
 
 bundleTypeFrame = Frame(flagsFrame)
-bundleTypeFrame.grid(column=0, row=6, sticky="w")
+bundleTypeFrame.grid(column=0, row=7, sticky="w")
 
 bundleType = StringVar()
 
@@ -172,6 +182,8 @@ bundleTypeOneFileRadioButton.pack(side=TOP, anchor=W)
 
 bundleTypeOnedirectoryRadioButton = Radiobutton(bundleTypeFrame, text="One-folder bundle", variable=bundleType, value="-D")
 bundleTypeOnedirectoryRadioButton.pack(side=TOP, anchor=W)
+
+
 
 # Execute Tkinter
 root.mainloop()
