@@ -241,5 +241,39 @@ UacUiAccessFrame = Frame(flagsFrame)
 
 UacUiAccessCheckbox = Checkbutton(UacUiAccessFrame, variable=UacUiAccess, text="Allow this admin app to work with Remote Desktop")
 UacUiAccessCheckbox.pack(side=LEFT)
+
+
+AddVersionFile = BooleanVar(root, False)
+def removeVersionFileBox():
+    global AddVersionFile
+    if AddVersionFile.get() == True:
+        VersionFileFrame.grid(column=0, row=14, sticky="w")
+    else:
+        VersionFileEntry.delete(0, END)  
+        VersionFileFrame.grid_remove()
+        
+
+AddVersionFileFrame = Frame(flagsFrame)
+AddVersionFileFrame.grid(column=0, row=13, sticky="w")
+AddVersionFileCheckbox = Checkbutton(AddVersionFileFrame, variable=AddVersionFile, text="Add a version resource to the exe",
+                                command=removeVersionFileBox)
+AddVersionFileCheckbox.pack(side=LEFT)
+
+def openVersionFile():
+    global scriptLocationEntry
+    file = askopenfile()
+    if file is None:
+        pass
+    else:
+        VersionFileEntry.delete(0, END)
+        VersionFileEntry.insert(0, file.name)
+
+VersionFileFrame = Frame(flagsFrame)
+
+VersionFileEntry = Entry(VersionFileFrame, width=60)
+VersionFileEntry.pack(side=LEFT)
+
+VersionFileOpenButton = Button(VersionFileFrame, text="Open", command=openVersionFile)
+VersionFileOpenButton.pack(side=LEFT, anchor=N)
 # Execute Tkinter
 root.mainloop()
