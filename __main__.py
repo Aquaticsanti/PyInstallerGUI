@@ -9,7 +9,7 @@ root = Tk()
 
 
 root.title("PyInstallerGUI")
-root.geometry('750x400')
+root.geometry('750x500')
 root.resizable(False, False)
 
 
@@ -308,5 +308,51 @@ ManifestFileEntry.pack(side=LEFT)
 
 ManifestFileOpenButton = Button(ManifestFileFrame, text="Open", command=openManifestFile)
 ManifestFileOpenButton.pack(side=LEFT, anchor=N)
+
+AddSplashFile = BooleanVar(root, False)
+def removeSplashFileBox():
+    global AddSplashFile
+    if AddSplashFile.get() == True:
+        SplashFileFrame.grid(column=0, row=18, sticky="w")
+        splashCenterFrame.grid(column=0, row=19, sticky="w")
+    else:
+        SplashFileEntry.delete(0, END)
+        splashCenter.set("Default")  
+        SplashFileFrame.grid_remove()
+        splashCenterFrame.grid_remove()
+        
+
+AddSplashFileFrame = Frame(flagsFrame)
+AddSplashFileFrame.grid(column=0, row=17, sticky="w")
+AddSplashFileCheckbox = Checkbutton(AddSplashFileFrame, variable=AddSplashFile, text="(EXPERIMENTAL) Add an splash screen to the exe",
+                                command=removeSplashFileBox)
+AddSplashFileCheckbox.pack(side=LEFT)
+
+def openSplashFile():
+    file = askopenfile(filetypes=[("Image files", ".png .jpg .jpeg .webp .bmp .gif")])
+    if file is None:
+        pass
+    else:
+        SplashFileEntry.delete(0, END)
+        SplashFileEntry.insert(0, file.name)
+
+SplashFileFrame = Frame(flagsFrame)
+
+SplashFileEntry = Entry(SplashFileFrame, width=60)
+SplashFileEntry.pack(side=LEFT)
+
+SplashFileOpenButton = Button(SplashFileFrame, text="Open", command=openSplashFile)
+SplashFileOpenButton.pack(side=LEFT, anchor=N)
+
+splashCenterFrame = Frame(flagsFrame)
+
+
+splashCenterLabel = Label(splashCenterFrame, text="Splash Center::")
+splashCenterLabel.pack(side=LEFT)
+
+splashCenter = StringVar(value="Default")
+splashCenterOptionsMenu = Combobox(splashCenterFrame, textvariable=splashCenter, values=["Default", "Active", 
+                                    "Primary", "Virtual"], state="readonly", width=10)
+splashCenterOptionsMenu.pack(side=LEFT)
 # Execute Tkinter
 root.mainloop()
