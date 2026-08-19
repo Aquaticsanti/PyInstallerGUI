@@ -275,5 +275,38 @@ VersionFileEntry.pack(side=LEFT)
 
 VersionFileOpenButton = Button(VersionFileFrame, text="Open", command=openVersionFile)
 VersionFileOpenButton.pack(side=LEFT, anchor=N)
+
+AddManifestFile = BooleanVar(root, False)
+def removeManifestFileBox():
+    global AddManifestFile
+    if AddManifestFile.get() == True:
+        ManifestFileFrame.grid(column=0, row=16, sticky="w")
+    else:
+        ManifestFileEntry.delete(0, END)  
+        ManifestFileFrame.grid_remove()
+        
+
+AddManifestFileFrame = Frame(flagsFrame)
+AddManifestFileFrame.grid(column=0, row=15, sticky="w")
+AddManifestFileCheckbox = Checkbutton(AddManifestFileFrame, variable=AddManifestFile, text="Add a Manifest file to the exe",
+                                command=removeManifestFileBox)
+AddManifestFileCheckbox.pack(side=LEFT)
+
+def openManifestFile():
+    global scriptLocationEntry
+    file = askopenfile()
+    if file is None:
+        pass
+    else:
+        ManifestFileEntry.delete(0, END)
+        ManifestFileEntry.insert(0, file.name)
+
+ManifestFileFrame = Frame(flagsFrame)
+
+ManifestFileEntry = Entry(ManifestFileFrame, width=60)
+ManifestFileEntry.pack(side=LEFT)
+
+ManifestFileOpenButton = Button(ManifestFileFrame, text="Open", command=openManifestFile)
+ManifestFileOpenButton.pack(side=LEFT, anchor=N)
 # Execute Tkinter
 root.mainloop()
