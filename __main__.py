@@ -67,7 +67,7 @@ appLogoButton.pack(side=TOP, anchor=N, ipadx=40, ipady=40)
 
 
 flagsFrame = Frame(notScriptLocationFrame)
-flagsFrame.grid(column=1, row=0, rowspan=2, sticky=N)
+flagsFrame.grid(column=1, row=0, rowspan=100, sticky=N)
 
 
 def getDistFolder():
