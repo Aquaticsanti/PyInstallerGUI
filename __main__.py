@@ -10,7 +10,33 @@ root = Tk()
 
 root.title("PyInstallerGUI")
 root.geometry('750x500')
-root.resizable(False, True)
+root.resizable(False, False)
+
+canvas = Canvas(root, width=730, height=500, highlightthickness=0)
+canvas.pack(side="left", fill="both", expand=True)
+
+scrollbar = Scrollbar(root, orient="vertical", command=canvas.yview)
+scrollbar.pack(side="right", fill="y")
+
+
+
+def on_scroll(first, last): # This function was made with AI
+    scrollbar.set(first, last)
+
+    if float(first) == 0.0 and float(last) == 1.0:
+        scrollbar.pack_forget()
+    else:
+        scrollbar.pack(side="right", fill="y")
+
+canvas.configure(yscrollcommand=on_scroll)
+
+frame = Frame(canvas)
+canvas.create_window((0, 0), window=frame, anchor="nw")
+
+frame.bind(
+    "<Configure>",
+    lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+)
 
 def openScript():
     global scriptLocationEntry
@@ -21,7 +47,7 @@ def openScript():
         scriptLocationEntry.delete(0, END)
         scriptLocationEntry.insert(0, file.name)
 
-scriptLocationFrame = Frame(root)
+scriptLocationFrame = Frame(frame)
 scriptLocationFrame.pack(side=TOP)
 
 scriptLocationLabel = Label(scriptLocationFrame, text="Script File:")
@@ -33,7 +59,7 @@ scriptLocationEntry.pack(side=LEFT, anchor=N)
 scripLocationOpenButton = Button(scriptLocationFrame, text="Open", command=openScript)
 scripLocationOpenButton.pack(side=LEFT, anchor=N)
 
-notScriptLocationFrame = Frame(root)
+notScriptLocationFrame = Frame(frame)
 notScriptLocationFrame.pack(side=TOP, anchor=W)
 appNameFrame = Frame(notScriptLocationFrame, padding=(15, 5))
 appNameFrame.grid(column=0, row=0, sticky=N)
