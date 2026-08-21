@@ -10,8 +10,7 @@ root = Tk()
 
 root.title("PyInstallerGUI")
 root.geometry('750x500')
-root.resizable(False, False)
-
+root.resizable(False, True)
 
 def openScript():
     global scriptLocationEntry
@@ -354,5 +353,41 @@ splashCenter = StringVar(value="Default")
 splashCenterOptionsMenu = Combobox(splashCenterFrame, textvariable=splashCenter, values=["Default", "Active", 
                                     "Primary", "Virtual"], state="readonly", width=10)
 splashCenterOptionsMenu.pack(side=LEFT)
+
+addDataFrame = Frame(flagsFrame)
+addDataFrame.grid(column=0, row=20, sticky="w")
+
+additionalData = []
+def addData():
+    global additionalData
+    additionalData.append(Frame(addDataFrame))
+    additionalData[-1].pack(side=TOP)
+    index = len(additionalData)-1
+    indexLabel = Label(additionalData[index], text=index) # To identify it! Shouldn't be shown
+    def remove():
+        for i, frame in enumerate(additionalData):
+            for child in frame.winfo_children():
+                if child.winfo_class() == "TLabel":
+                    if child["text"] == index:
+                        additionalData[i].destroy()
+                        additionalData.pop(i)
+                        break
+    removeButton = Button(additionalData[-1], text="🗑", width=2, command=remove)
+    removeButton.pack(side=LEFT, anchor=N)
+
+    sourceDirLabel = Label(additionalData[-1], text="Source:")
+    sourceDirLabel.pack(side=LEFT, anchor=N)
+
+    sourceDirEntry = Entry(additionalData[-1], width=25)
+    sourceDirEntry.pack(side=LEFT, anchor=N)
+
+    destinationDirLabel = Label(additionalData[-1], text="Destination:")
+    destinationDirLabel.pack(side=LEFT, anchor=N)
+
+    destinationDirEntry = Entry(additionalData[-1], width=25)
+    destinationDirEntry.pack(side=LEFT, anchor=N)
+addDataButton = Button(addDataFrame, command=addData, text="Add additional files")
+addDataButton.pack(side=TOP, anchor=W)
+
 # Execute Tkinter
 root.mainloop()
