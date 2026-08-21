@@ -389,5 +389,39 @@ def addData():
 addDataButton = Button(addDataFrame, command=addData, text="Add additional files")
 addDataButton.pack(side=TOP, anchor=W)
 
+addBinaryFrame = Frame(flagsFrame)
+addBinaryFrame.grid(column=0, row=21, sticky="w")
+
+additionalBinary = []
+def addBinary():
+    global additionalBinary
+    additionalBinary.append(Frame(addBinaryFrame))
+    additionalBinary[-1].pack(side=TOP)
+    index = len(additionalBinary)-1
+    indexLabel = Label(additionalBinary[index], text=index) # To identify it! Shouldn't be shown
+    def remove():
+        for i, frame in enumerate(additionalBinary):
+            for child in frame.winfo_children():
+                if child.winfo_class() == "TLabel":
+                    if child["text"] == index:
+                        additionalBinary[i].destroy()
+                        additionalBinary.pop(i)
+                        break
+    removeButton = Button(additionalBinary[-1], text="🗑", width=2, command=remove)
+    removeButton.pack(side=LEFT, anchor=N)
+
+    sourceDirLabel = Label(additionalBinary[-1], text="Source:")
+    sourceDirLabel.pack(side=LEFT, anchor=N)
+
+    sourceDirEntry = Entry(additionalBinary[-1], width=25)
+    sourceDirEntry.pack(side=LEFT, anchor=N)
+
+    destinationDirLabel = Label(additionalBinary[-1], text="Destination:")
+    destinationDirLabel.pack(side=LEFT, anchor=N)
+
+    destinationDirEntry = Entry(additionalBinary[-1], width=25)
+    destinationDirEntry.pack(side=LEFT, anchor=N)
+addBinaryButton = Button(addBinaryFrame, command=addBinary, text="Add additional binary file")
+addBinaryButton.pack(side=TOP, anchor=W)
 # Execute Tkinter
 root.mainloop()
