@@ -423,5 +423,41 @@ def addBinary():
     destinationDirEntry.pack(side=LEFT, anchor=N)
 addBinaryButton = Button(addBinaryFrame, command=addBinary, text="Add additional binary file")
 addBinaryButton.pack(side=TOP, anchor=W)
+
+
+addPathsFrame = Frame(flagsFrame)
+addPathsFrame.grid(column=0, row=22, sticky="w")
+
+additionalPaths = []
+def addPaths():
+    global additionalPaths
+    additionalPaths.append(Frame(addPathsFrame))
+    additionalPaths[-1].pack(side=TOP)
+    index = len(additionalPaths)-1
+    indexLabel = Label(additionalPaths[index], text=index) # To identify it! Shouldn't be shown
+    def remove():
+        for i, frame in enumerate(additionalPaths):
+            for child in frame.winfo_children():
+                if child.winfo_class() == "TLabel":
+                    if child["text"] == index:
+                        additionalPaths[i].destroy()
+                        additionalPaths.pop(i)
+                        break
+    removeButton = Button(additionalPaths[-1], text="🗑", width=2, command=remove)
+    removeButton.pack(side=LEFT, anchor=N)
+
+    sourceDirLabel = Label(additionalPaths[-1], text="Source:")
+    sourceDirLabel.pack(side=LEFT, anchor=N)
+
+    sourceDirEntry = Entry(additionalPaths[-1], width=25)
+    sourceDirEntry.pack(side=LEFT, anchor=N)
+
+    destinationDirLabel = Label(additionalPaths[-1], text="Destination:")
+    destinationDirLabel.pack(side=LEFT, anchor=N)
+
+    destinationDirEntry = Entry(additionalPaths[-1], width=25)
+    destinationDirEntry.pack(side=LEFT, anchor=N)
+addPathsButton = Button(addPathsFrame, command=addPaths, text="Add additional import paths")
+addPathsButton.pack(side=TOP, anchor=W)
 # Execute Tkinter
 root.mainloop()
