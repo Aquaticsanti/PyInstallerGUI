@@ -472,6 +472,9 @@ def addPaths():
     removeButton = Button(additionalPaths[-1], text="🗑", width=2, command=remove)
     removeButton.pack(side=LEFT, anchor=N)
 
+    pathsEntry = Entry(additionalPaths[-1], width=50)
+    pathsEntry.pack(side=LEFT, anchor=N)
+
     sourceDirEntry = Entry(additionalPaths[-1], width=50)
     sourceDirEntry.pack(side=LEFT, anchor=N)
 addPathsButton = Button(addPathsFrame, command=addPaths, text="Add additional import paths")
