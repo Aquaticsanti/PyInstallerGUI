@@ -662,5 +662,32 @@ def addCopyMetadataRecurse():
     copyMetadataRecurseEntry.pack(side=LEFT, anchor=N)
 copyMetadataRecurseButton = Button(copyMetadataRecurseFrame, command=addCopyMetadataRecurse, text="Recursively copy metadata for package")
 copyMetadataRecurseButton.pack(side=TOP, anchor=W)
+
+
+additionalHooksDirFrame = Frame(flagsFrame)
+additionalHooksDirFrame.grid(column=0, row=30, sticky="w")
+
+additionalHooksDir = []
+def addAdditionalHooksDir():
+    global additionalHooksDir
+    additionalHooksDir.append(Frame(additionalHooksDirFrame))
+    additionalHooksDir[-1].pack(side=TOP)
+    index = len(additionalHooksDir)-1
+    indexLabel = Label(additionalHooksDir[index], text=index) # To identify it! Shouldn't be shown
+    def remove():
+        for i, frame in enumerate(additionalHooksDir):
+            for child in frame.winfo_children():
+                if child.winfo_class() == "TLabel":
+                    if child["text"] == index:
+                        additionalHooksDir[i].destroy()
+                        additionalHooksDir.pop(i)
+                        break
+    removeButton = Button(additionalHooksDir[-1], text="🗑", width=2, command=remove)
+    removeButton.pack(side=LEFT, anchor=N)
+
+    additionalHooksDirEntry = Entry(additionalHooksDir[-1], width=50)
+    additionalHooksDirEntry.pack(side=LEFT, anchor=N)
+additionalHooksDirButton = Button(additionalHooksDirFrame, command=addAdditionalHooksDir, text="Add a path to search for hooks")
+additionalHooksDirButton.pack(side=TOP, anchor=W)
 # Execute Tkinter
 root.mainloop()
