@@ -472,17 +472,8 @@ def addPaths():
     removeButton = Button(additionalPaths[-1], text="🗑", width=2, command=remove)
     removeButton.pack(side=LEFT, anchor=N)
 
-    sourceDirLabel = Label(additionalPaths[-1], text="Source:")
-    sourceDirLabel.pack(side=LEFT, anchor=N)
-
-    sourceDirEntry = Entry(additionalPaths[-1], width=25)
+    sourceDirEntry = Entry(additionalPaths[-1], width=50)
     sourceDirEntry.pack(side=LEFT, anchor=N)
-
-    destinationDirLabel = Label(additionalPaths[-1], text="Destination:")
-    destinationDirLabel.pack(side=LEFT, anchor=N)
-
-    destinationDirEntry = Entry(additionalPaths[-1], width=25)
-    destinationDirEntry.pack(side=LEFT, anchor=N)
 addPathsButton = Button(addPathsFrame, command=addPaths, text="Add additional import paths")
 addPathsButton.pack(side=TOP, anchor=W)
 # Execute Tkinter
