@@ -556,8 +556,35 @@ def addCollectData():
 collectDataButton = Button(collectDataFrame, command=addCollectData, text="Collect all data from module")
 collectDataButton.pack(side=TOP, anchor=W)
 
+
+collectBinariesFrame = Frame(flagsFrame)
+collectBinariesFrame.grid(column=0, row=26, sticky="w")
+
+collectBinaries = []
+def addCollectBinaries():
+    global collectBinaries
+    collectBinaries.append(Frame(collectBinariesFrame))
+    collectBinaries[-1].pack(side=TOP)
+    index = len(collectBinaries)-1
+    indexLabel = Label(collectBinaries[index], text=index) # To identify it! Shouldn't be shown
+    def remove():
+        for i, frame in enumerate(collectBinaries):
+            for child in frame.winfo_children():
+                if child.winfo_class() == "TLabel":
+                    if child["text"] == index:
+                        collectBinaries[i].destroy()
+                        collectBinaries.pop(i)
+                        break
+    removeButton = Button(collectBinaries[-1], text="🗑", width=2, command=remove)
+    removeButton.pack(side=LEFT, anchor=N)
+
+    collectBinariesEntry = Entry(collectBinaries[-1], width=50)
+    collectBinariesEntry.pack(side=LEFT, anchor=N)
+collectBinariesButton = Button(collectBinariesFrame, command=addCollectBinaries, text="Collect all binaries from module")
+collectBinariesButton.pack(side=TOP, anchor=W)
+
 collectAllFrame = Frame(flagsFrame)
-collectAllFrame.grid(column=0, row=26, sticky="w")
+collectAllFrame.grid(column=0, row=27, sticky="w")
 
 collectAll = []
 def addCollectAll():
@@ -584,7 +611,7 @@ collectAllButton.pack(side=TOP, anchor=W)
 
 
 copyMetadataFrame = Frame(flagsFrame)
-copyMetadataFrame.grid(column=0, row=27, sticky="w")
+copyMetadataFrame.grid(column=0, row=28, sticky="w")
 
 copyMetadata = []
 def addCopyMetadata():
