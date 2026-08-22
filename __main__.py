@@ -1,15 +1,15 @@
 from tkinter import *
 from tkinter.filedialog import *
+from tkinter.font import *
 from tkinter.ttk import *
 from PIL import Image, ImageTk
 
 # create root window
 root = Tk()
 root.iconphoto(True, PhotoImage(file="pyinstaller-default.png"))
-
-
+style = Style()
 root.title("PyInstallerGUI")
-root.geometry('825x520')
+root.geometry('825x605')
 root.resizable(False, False)
 
 canvas = Canvas(root, width=root.winfo_width()-20, height=root.winfo_height(), highlightthickness=0)
@@ -50,7 +50,10 @@ def openScript():
 scriptLocationFrame = Frame(frame)
 scriptLocationFrame.pack(side=TOP)
 
-scriptLocationLabel = Label(scriptLocationFrame, text="Script File:")
+mandatoryFont = nametofont(style.lookup("TLabel", "font")).copy()
+mandatoryFont.configure(underline=True)
+style.configure("Mandatory.TLabel", font=mandatoryFont)
+scriptLocationLabel = Label(scriptLocationFrame, text="Script File:", style="Mandatory.TLabel")
 scriptLocationLabel.pack(side=LEFT, anchor=N)
 
 scriptLocationEntry = Entry(scriptLocationFrame, width=90)
@@ -111,7 +114,7 @@ def getDistFolder():
 distpathFrame = Frame(rightFrame)
 distpathFrame.grid(column=0, row=0, sticky="w")
 
-distpathLabel = Label(distpathFrame, text="Bundled app destination:")
+distpathLabel = Label(distpathFrame, text="Bundled app destination:", style="Mandatory.TLabel")
 distpathLabel.pack(side=LEFT)
 
 distpathEntry = Entry(distpathFrame, width=32)
@@ -133,7 +136,7 @@ def getWorkFolder():
 workpathFrame = Frame(rightFrame)
 workpathFrame.grid(column=0, row=1, sticky="w")
 
-workpathLabel = Label(workpathFrame, text="Temporary files destination:")
+workpathLabel = Label(workpathFrame, text="Temporary files destination:", style="Mandatory.TLabel")
 workpathLabel.pack(side=LEFT)
 
 workpathEntry = Entry(workpathFrame, width=30)
@@ -154,7 +157,7 @@ def getspecFolder():
 specpathFrame = Frame(rightFrame)
 specpathFrame.grid(column=0, row=2, sticky="w")
 
-specpathLabel = Label(specpathFrame, text=".spec file destination:")
+specpathLabel = Label(specpathFrame, text=".spec file destination:", style="Mandatory.TLabel")
 specpathLabel.pack(side=LEFT)
 
 specpathEntry = Entry(specpathFrame, width=36)
@@ -746,5 +749,30 @@ def addExcludeModule():
     excludeModuleEntry.pack(side=LEFT, anchor=W)
 excludeModuleButton = Button(excludeModuleFrame, command=addExcludeModule, text="Add module (the Python name, not the path name) that will be ignored")
 excludeModuleButton.pack(side=TOP, anchor=W)
+
+def checkRequiredEntries(event=None):
+    if all([
+    len(scriptLocationEntry.get()) >= 7,
+    len(distpathEntry.get()) >= 3,
+    len(workpathEntry.get()) >= 3,
+    len(specpathEntry.get()) >= 3]):
+        buildButton.config(state="normal")
+        clarifyMandatoryLabel.grid_forget()
+    else:
+        buildButton.config(state="disabled")
+        clarifyMandatoryLabel.grid(column=0, row=102, columnspan=2)
+
+for i in [scriptLocationEntry, distpathEntry, workpathEntry, specpathEntry]:
+    i.bind("<KeyRelease>", checkRequiredEntries)
+buildButtonFont = nametofont(style.lookup("TButton", "font")).copy()
+buildButtonFont.configure(size=28, weight=BOLD)
+style.configure("BuildButton.TButton", font=buildButtonFont)
+buildButton = Button(notScriptLocationFrame, text="BUILD", style="BuildButton.TButton", width=15, state=DISABLED)
+buildButton.grid(column=0, row=101, columnspan=2, pady=(15, 0))
+
+clarifyMandatoryLabel = Label(notScriptLocationFrame, text="(Underlined items are mandatory)")
+clarifyMandatoryLabel.grid(column=0, row=102, columnspan=2)
+
+
 # Execute Tkinter
 root.mainloop()
