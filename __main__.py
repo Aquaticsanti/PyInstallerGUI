@@ -555,5 +555,31 @@ def addCollectData():
     collectDataEntry.pack(side=LEFT, anchor=N)
 collectDataButton = Button(collectDataFrame, command=addCollectData, text="Collect all data from module")
 collectDataButton.pack(side=TOP, anchor=W)
+
+collectAllFrame = Frame(flagsFrame)
+collectAllFrame.grid(column=0, row=25, sticky="w")
+
+collectAll = []
+def addCollectAll():
+    global collectAll
+    collectAll.append(Frame(collectAllFrame))
+    collectAll[-1].pack(side=TOP)
+    index = len(collectAll)-1
+    indexLabel = Label(collectAll[index], text=index) # To identify it! Shouldn't be shown
+    def remove():
+        for i, frame in enumerate(collectAll):
+            for child in frame.winfo_children():
+                if child.winfo_class() == "TLabel":
+                    if child["text"] == index:
+                        collectAll[i].destroy()
+                        collectAll.pop(i)
+                        break
+    removeButton = Button(collectAll[-1], text="🗑", width=2, command=remove)
+    removeButton.pack(side=LEFT, anchor=N)
+
+    collectAllEntry = Entry(collectAll[-1], width=50)
+    collectAllEntry.pack(side=LEFT, anchor=N)
+collectAllButton = Button(collectAllFrame, command=addCollectAll, text="Collect all (submodules, data files, and binaries) from module")
+collectAllButton.pack(side=TOP, anchor=W)
 # Execute Tkinter
 root.mainloop()
