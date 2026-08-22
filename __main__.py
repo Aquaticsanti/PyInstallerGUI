@@ -5,7 +5,7 @@ from PIL import Image, ImageTk
 
 # create root window
 root = Tk()
-
+root.iconphoto(True, PhotoImage(file="pyinstaller-default.png"))
 
 
 root.title("PyInstallerGUI")
