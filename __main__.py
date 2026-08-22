@@ -503,5 +503,31 @@ def addHiddenImports():
     hiddenImportsEntry.pack(side=LEFT, anchor=N)
 hiddenImportsButton = Button(hiddenImportsFrame, command=addHiddenImports, text="Add a hidden import")
 hiddenImportsButton.pack(side=TOP, anchor=W)
+
+collectSubmodulesFrame = Frame(flagsFrame)
+collectSubmodulesFrame.grid(column=0, row=24, sticky="w")
+
+collectSubmodules = []
+def addCollectSubmodules():
+    global collectSubmodules
+    collectSubmodules.append(Frame(collectSubmodulesFrame))
+    collectSubmodules[-1].pack(side=TOP)
+    index = len(collectSubmodules)-1
+    indexLabel = Label(collectSubmodules[index], text=index) # To identify it! Shouldn't be shown
+    def remove():
+        for i, frame in enumerate(collectSubmodules):
+            for child in frame.winfo_children():
+                if child.winfo_class() == "TLabel":
+                    if child["text"] == index:
+                        collectSubmodules[i].destroy()
+                        collectSubmodules.pop(i)
+                        break
+    removeButton = Button(collectSubmodules[-1], text="🗑", width=2, command=remove)
+    removeButton.pack(side=LEFT, anchor=N)
+
+    collectSubmodulesEntry = Entry(collectSubmodules[-1], width=50)
+    collectSubmodulesEntry.pack(side=LEFT, anchor=N)
+collectSubmodulesButton = Button(collectSubmodulesFrame, command=addCollectSubmodules, text="Collect all submodules from module")
+collectSubmodulesButton.pack(side=TOP, anchor=W)
 # Execute Tkinter
 root.mainloop()
