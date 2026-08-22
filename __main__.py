@@ -689,5 +689,32 @@ def addAdditionalHooksDir():
     additionalHooksDirEntry.pack(side=LEFT, anchor=N)
 additionalHooksDirButton = Button(additionalHooksDirFrame, command=addAdditionalHooksDir, text="Add a path to search for hooks")
 additionalHooksDirButton.pack(side=TOP, anchor=W)
+
+
+runtimeHookFrame = Frame(flagsFrame)
+runtimeHookFrame.grid(column=0, row=31, sticky="w")
+
+runtimeHook = []
+def addRuntimeHook():
+    global runtimeHook
+    runtimeHook.append(Frame(runtimeHookFrame))
+    runtimeHook[-1].pack(side=TOP)
+    index = len(runtimeHook)-1
+    indexLabel = Label(runtimeHook[index], text=index) # To identify it! Shouldn't be shown
+    def remove():
+        for i, frame in enumerate(runtimeHook):
+            for child in frame.winfo_children():
+                if child.winfo_class() == "TLabel":
+                    if child["text"] == index:
+                        runtimeHook[i].destroy()
+                        runtimeHook.pop(i)
+                        break
+    removeButton = Button(runtimeHook[-1], text="🗑", width=2, command=remove)
+    removeButton.pack(side=LEFT, anchor=N)
+
+    runtimeHookEntry = Entry(runtimeHook[-1], width=50)
+    runtimeHookEntry.pack(side=LEFT, anchor=N)
+runtimeHookButton = Button(runtimeHookFrame, command=addRuntimeHook, text="Add a path to a custom runtime hook file")
+runtimeHookButton.pack(side=TOP, anchor=W)
 # Execute Tkinter
 root.mainloop()
