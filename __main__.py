@@ -9,10 +9,10 @@ root = Tk()
 
 
 root.title("PyInstallerGUI")
-root.geometry('750x500')
+root.geometry('825x520')
 root.resizable(False, False)
 
-canvas = Canvas(root, width=730, height=500, highlightthickness=0)
+canvas = Canvas(root, width=root.winfo_width()-20, height=root.winfo_height(), highlightthickness=0)
 canvas.pack(side="left", fill="both", expand=True)
 
 scrollbar = Scrollbar(root, orient="vertical", command=canvas.yview)
@@ -61,7 +61,11 @@ scripLocationOpenButton.pack(side=LEFT, anchor=N)
 
 notScriptLocationFrame = Frame(frame)
 notScriptLocationFrame.pack(side=TOP, anchor=W)
-appNameFrame = Frame(notScriptLocationFrame, padding=(15, 5))
+
+leftFrame = Frame(notScriptLocationFrame, padding=(15, 0))
+leftFrame.grid(column=0, row=0, rowspan=100, sticky=N)
+
+appNameFrame = Frame(leftFrame, padding=(0, 5))
 appNameFrame.grid(column=0, row=0, sticky=N)
 
 appNameLabel = Label(appNameFrame, text="App Name:")
@@ -71,7 +75,7 @@ appNameEntry = Entry(appNameFrame, width=30)
 appNameEntry.pack(side=LEFT, anchor=N)
 
 
-appLogoFrame = Frame(notScriptLocationFrame, padding=(0, 0))
+appLogoFrame = Frame(leftFrame, padding=(0, 0))
 appLogoFrame.grid(column=0, row=1, sticky=N)
 
 appLogoLabel = Label(appLogoFrame, text="App Logo:")
@@ -91,8 +95,8 @@ appLogoButton.pack(side=TOP, anchor=N, ipadx=40, ipady=40)
 
 
 
-flagsFrame = Frame(notScriptLocationFrame)
-flagsFrame.grid(column=1, row=0, rowspan=100, sticky=N)
+rightFrame = Frame(notScriptLocationFrame)
+rightFrame.grid(column=1, row=0, rowspan=100, sticky=N)
 
 
 def getDistFolder():
@@ -104,7 +108,7 @@ def getDistFolder():
         distpathEntry.delete(0, END)
         distpathEntry.insert(0, distFolder)
 
-distpathFrame = Frame(flagsFrame)
+distpathFrame = Frame(rightFrame)
 distpathFrame.grid(column=0, row=0, sticky="w")
 
 distpathLabel = Label(distpathFrame, text="Bundled app destination:")
@@ -126,7 +130,7 @@ def getWorkFolder():
         workpathEntry.delete(0, END)
         workpathEntry.insert(0, workFolder)
 
-workpathFrame = Frame(flagsFrame)
+workpathFrame = Frame(rightFrame)
 workpathFrame.grid(column=0, row=1, sticky="w")
 
 workpathLabel = Label(workpathFrame, text="Temporary files destination:")
@@ -147,7 +151,7 @@ def getspecFolder():
         specpathEntry.delete(0, END)
         specpathEntry.insert(0, specFolder)
 
-specpathFrame = Frame(flagsFrame)
+specpathFrame = Frame(rightFrame)
 specpathFrame.grid(column=0, row=2, sticky="w")
 
 specpathLabel = Label(specpathFrame, text=".spec file destination:")
@@ -159,7 +163,7 @@ specpathEntry.pack(side=LEFT)
 specpathOpenButton = Button(specpathFrame, text="Open", command=getspecFolder)
 specpathOpenButton.pack(side=LEFT, anchor=N)
 
-noConfirmFrame = Frame(flagsFrame)
+noConfirmFrame = Frame(leftFrame)
 noConfirmFrame.grid(column=0, row=3, sticky="w")
 
 noConfirm = BooleanVar(root, False)
@@ -167,7 +171,7 @@ noConfirmCheckbox = Checkbutton(noConfirmFrame, variable=noConfirm, text="Replac
 noConfirmCheckbox.pack(side=LEFT)
 
 
-cleanFrame = Frame(flagsFrame)
+cleanFrame = Frame(leftFrame)
 cleanFrame.grid(column=0, row=4, sticky="w")
 
 clean = BooleanVar(root, False)
@@ -175,7 +179,7 @@ cleanCheckbox = Checkbutton(cleanFrame, variable=clean, text="Clean cache and re
 cleanCheckbox.pack(side=LEFT)
 
 
-logFrame = Frame(flagsFrame)
+logFrame = Frame(leftFrame)
 logFrame.grid(column=0, row=5, sticky="w")
 
 logLabel = Label(logFrame, text="Log level:")
@@ -186,7 +190,7 @@ logOptionsMenu = Combobox(logFrame, textvariable=logLevel, values=["TRACE", "DEB
                           state="readonly", width=10)
 logOptionsMenu.pack(side=LEFT)
 
-debugFrame = Frame(flagsFrame)
+debugFrame = Frame(leftFrame)
 debugFrame.grid(column=0, row=6, sticky="w")
 
 debugLabel = Label(debugFrame, text="Debug level:")
@@ -197,7 +201,7 @@ debugOptionsMenu = Combobox(debugFrame, textvariable=debugLevel, values=["None",
                           state="readonly", width=10)
 debugOptionsMenu.pack(side=LEFT)
 
-bundleTypeFrame = Frame(flagsFrame)
+bundleTypeFrame = Frame(leftFrame)
 bundleTypeFrame.grid(column=0, row=7, sticky="w")
 
 bundleType = StringVar()
@@ -210,7 +214,7 @@ bundleTypeOnedirectoryRadioButton.pack(side=TOP, anchor=W)
 
 
 
-hideConsoleFrame = Frame(flagsFrame)
+hideConsoleFrame = Frame(leftFrame)
 hideConsoleFrame.grid(column=0, row=9, sticky="w")
 
 hideConsoleLabel = Label(hideConsoleFrame, text="Hide console:")
@@ -233,17 +237,17 @@ def removeHideConsole():
         hideConsoleFrame.grid_remove()
         noWindowedTracebackFrame.grid(column=0, row=10, sticky="w")
 
-windowedFrame = Frame(flagsFrame)
+windowedFrame = Frame(leftFrame)
 windowedFrame.grid(column=0, row=8, sticky="w")
 
 windowedCheckbox = Checkbutton(windowedFrame, variable=windowed, text="Package as a windowed app (no console window)",
                                 command=removeHideConsole)
 windowedCheckbox.pack(side=LEFT)
 
-noWindowedTracebackFrame = Frame(flagsFrame)
+noWindowedTracebackFrame = Frame(leftFrame)
 
 noWindowedTracebackCheckbox = Checkbutton(noWindowedTracebackFrame, variable=noWindowedTraceback, 
-                                        text="Replace traceback dump for disabled feature message (Only in windowed mode)")
+                                        text="Replace error dump for disabled feature message")
 noWindowedTracebackCheckbox.pack(side=LEFT)
 
 UacAdmin = BooleanVar(root, False)
@@ -255,14 +259,14 @@ def removeUacUiAccess():
     else:
         UacUiAccessFrame.grid_remove()
         UacUiAccess.set(False)
-UacAdminFrame = Frame(flagsFrame)
+UacAdminFrame = Frame(rightFrame)
 UacAdminFrame.grid(column=0, row=11, sticky="w")
 
 UacAdminCheckbox = Checkbutton(UacAdminFrame, variable=UacAdmin, text="Ask for admin elevation upon app start",
                                 command=removeUacUiAccess)
 UacAdminCheckbox.pack(side=LEFT)
 
-UacUiAccessFrame = Frame(flagsFrame)
+UacUiAccessFrame = Frame(rightFrame)
 
 UacUiAccessCheckbox = Checkbutton(UacUiAccessFrame, variable=UacUiAccess, text="Allow this admin app to work with Remote Desktop")
 UacUiAccessCheckbox.pack(side=LEFT)
@@ -278,7 +282,7 @@ def removeVersionFileBox():
         VersionFileFrame.grid_remove()
         
 
-AddVersionFileFrame = Frame(flagsFrame)
+AddVersionFileFrame = Frame(rightFrame)
 AddVersionFileFrame.grid(column=0, row=13, sticky="w")
 AddVersionFileCheckbox = Checkbutton(AddVersionFileFrame, variable=AddVersionFile, text="Add a version resource to the exe",
                                 command=removeVersionFileBox)
@@ -293,7 +297,7 @@ def openVersionFile():
         VersionFileEntry.delete(0, END)
         VersionFileEntry.insert(0, file.name)
 
-VersionFileFrame = Frame(flagsFrame)
+VersionFileFrame = Frame(rightFrame)
 
 VersionFileEntry = Entry(VersionFileFrame, width=60)
 VersionFileEntry.pack(side=LEFT)
@@ -311,7 +315,7 @@ def removeManifestFileBox():
         ManifestFileFrame.grid_remove()
         
 
-AddManifestFileFrame = Frame(flagsFrame)
+AddManifestFileFrame = Frame(rightFrame)
 AddManifestFileFrame.grid(column=0, row=15, sticky="w")
 AddManifestFileCheckbox = Checkbutton(AddManifestFileFrame, variable=AddManifestFile, text="Add a Manifest file to the exe",
                                 command=removeManifestFileBox)
@@ -326,7 +330,7 @@ def openManifestFile():
         ManifestFileEntry.delete(0, END)
         ManifestFileEntry.insert(0, file.name)
 
-ManifestFileFrame = Frame(flagsFrame)
+ManifestFileFrame = Frame(rightFrame)
 
 ManifestFileEntry = Entry(ManifestFileFrame, width=60)
 ManifestFileEntry.pack(side=LEFT)
@@ -347,7 +351,7 @@ def removeSplashFileBox():
         splashCenterFrame.grid_remove()
         
 
-AddSplashFileFrame = Frame(flagsFrame)
+AddSplashFileFrame = Frame(rightFrame)
 AddSplashFileFrame.grid(column=0, row=17, sticky="w")
 AddSplashFileCheckbox = Checkbutton(AddSplashFileFrame, variable=AddSplashFile, text="(EXPERIMENTAL) Add an splash screen to the exe",
                                 command=removeSplashFileBox)
@@ -361,7 +365,7 @@ def openSplashFile():
         SplashFileEntry.delete(0, END)
         SplashFileEntry.insert(0, file.name)
 
-SplashFileFrame = Frame(flagsFrame)
+SplashFileFrame = Frame(rightFrame)
 
 SplashFileEntry = Entry(SplashFileFrame, width=60)
 SplashFileEntry.pack(side=LEFT)
@@ -369,7 +373,7 @@ SplashFileEntry.pack(side=LEFT)
 SplashFileOpenButton = Button(SplashFileFrame, text="Open", command=openSplashFile)
 SplashFileOpenButton.pack(side=LEFT, anchor=N)
 
-splashCenterFrame = Frame(flagsFrame)
+splashCenterFrame = Frame(rightFrame)
 
 
 splashCenterLabel = Label(splashCenterFrame, text="Splash Center::")
@@ -380,7 +384,7 @@ splashCenterOptionsMenu = Combobox(splashCenterFrame, textvariable=splashCenter,
                                     "Primary", "Virtual"], state="readonly", width=10)
 splashCenterOptionsMenu.pack(side=LEFT)
 
-addDataFrame = Frame(flagsFrame)
+addDataFrame = Frame(rightFrame)
 addDataFrame.grid(column=0, row=20, sticky="w")
 
 additionalData = []
@@ -415,7 +419,7 @@ def addData():
 addDataButton = Button(addDataFrame, command=addData, text="Add additional files")
 addDataButton.pack(side=TOP, anchor=W)
 
-addBinaryFrame = Frame(flagsFrame)
+addBinaryFrame = Frame(rightFrame)
 addBinaryFrame.grid(column=0, row=21, sticky="w")
 
 additionalBinary = []
@@ -451,7 +455,7 @@ addBinaryButton = Button(addBinaryFrame, command=addBinary, text="Add additional
 addBinaryButton.pack(side=TOP, anchor=W)
 
 
-addPathsFrame = Frame(flagsFrame)
+addPathsFrame = Frame(rightFrame)
 addPathsFrame.grid(column=0, row=22, sticky="w")
 
 additionalPaths = []
@@ -478,7 +482,7 @@ addPathsButton = Button(addPathsFrame, command=addPaths, text="Add additional im
 addPathsButton.pack(side=TOP, anchor=W)
 
 
-hiddenImportsFrame = Frame(flagsFrame)
+hiddenImportsFrame = Frame(rightFrame)
 hiddenImportsFrame.grid(column=0, row=23, sticky="w")
 
 hiddenImports = []
@@ -504,7 +508,7 @@ def addHiddenImports():
 hiddenImportsButton = Button(hiddenImportsFrame, command=addHiddenImports, text="Add a hidden import")
 hiddenImportsButton.pack(side=TOP, anchor=W)
 
-collectSubmodulesFrame = Frame(flagsFrame)
+collectSubmodulesFrame = Frame(rightFrame)
 collectSubmodulesFrame.grid(column=0, row=24, sticky="w")
 
 collectSubmodules = []
@@ -530,7 +534,7 @@ def addCollectSubmodules():
 collectSubmodulesButton = Button(collectSubmodulesFrame, command=addCollectSubmodules, text="Collect all submodules from module")
 collectSubmodulesButton.pack(side=TOP, anchor=W)
 
-collectDataFrame = Frame(flagsFrame)
+collectDataFrame = Frame(rightFrame)
 collectDataFrame.grid(column=0, row=25, sticky="w")
 
 collectData = []
@@ -557,7 +561,7 @@ collectDataButton = Button(collectDataFrame, command=addCollectData, text="Colle
 collectDataButton.pack(side=TOP, anchor=W)
 
 
-collectBinariesFrame = Frame(flagsFrame)
+collectBinariesFrame = Frame(rightFrame)
 collectBinariesFrame.grid(column=0, row=26, sticky="w")
 
 collectBinaries = []
@@ -583,7 +587,7 @@ def addCollectBinaries():
 collectBinariesButton = Button(collectBinariesFrame, command=addCollectBinaries, text="Collect all binaries from module")
 collectBinariesButton.pack(side=TOP, anchor=W)
 
-collectAllFrame = Frame(flagsFrame)
+collectAllFrame = Frame(rightFrame)
 collectAllFrame.grid(column=0, row=27, sticky="w")
 
 collectAll = []
@@ -610,7 +614,7 @@ collectAllButton = Button(collectAllFrame, command=addCollectAll, text="Collect 
 collectAllButton.pack(side=TOP, anchor=W)
 
 
-copyMetadataFrame = Frame(flagsFrame)
+copyMetadataFrame = Frame(rightFrame)
 copyMetadataFrame.grid(column=0, row=28, sticky="w")
 
 copyMetadata = []
@@ -637,7 +641,7 @@ copyMetadataButton = Button(copyMetadataFrame, command=addCopyMetadata, text="Co
 copyMetadataButton.pack(side=TOP, anchor=W)
 
 
-copyMetadataRecurseFrame = Frame(flagsFrame)
+copyMetadataRecurseFrame = Frame(rightFrame)
 copyMetadataRecurseFrame.grid(column=0, row=29, sticky="w")
 
 copyMetadataRecurse = []
@@ -664,7 +668,7 @@ copyMetadataRecurseButton = Button(copyMetadataRecurseFrame, command=addCopyMeta
 copyMetadataRecurseButton.pack(side=TOP, anchor=W)
 
 
-additionalHooksDirFrame = Frame(flagsFrame)
+additionalHooksDirFrame = Frame(rightFrame)
 additionalHooksDirFrame.grid(column=0, row=30, sticky="w")
 
 additionalHooksDir = []
@@ -691,7 +695,7 @@ additionalHooksDirButton = Button(additionalHooksDirFrame, command=addAdditional
 additionalHooksDirButton.pack(side=TOP, anchor=W)
 
 
-runtimeHookFrame = Frame(flagsFrame)
+runtimeHookFrame = Frame(rightFrame)
 runtimeHookFrame.grid(column=0, row=31, sticky="w")
 
 runtimeHook = []
@@ -717,7 +721,7 @@ def addRuntimeHook():
 runtimeHookButton = Button(runtimeHookFrame, command=addRuntimeHook, text="Add a path to a custom runtime hook file")
 runtimeHookButton.pack(side=TOP, anchor=W)
 
-excludeModuleFrame = Frame(flagsFrame)
+excludeModuleFrame = Frame(rightFrame)
 excludeModuleFrame.grid(column=0, row=32, sticky="w")
 
 excludeModule = []
