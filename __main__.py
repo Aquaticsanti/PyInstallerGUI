@@ -557,7 +557,7 @@ collectDataButton = Button(collectDataFrame, command=addCollectData, text="Colle
 collectDataButton.pack(side=TOP, anchor=W)
 
 collectAllFrame = Frame(flagsFrame)
-collectAllFrame.grid(column=0, row=25, sticky="w")
+collectAllFrame.grid(column=0, row=26, sticky="w")
 
 collectAll = []
 def addCollectAll():
@@ -581,5 +581,32 @@ def addCollectAll():
     collectAllEntry.pack(side=LEFT, anchor=N)
 collectAllButton = Button(collectAllFrame, command=addCollectAll, text="Collect all (submodules, data files, and binaries) from module")
 collectAllButton.pack(side=TOP, anchor=W)
+
+
+copyMetadataFrame = Frame(flagsFrame)
+copyMetadataFrame.grid(column=0, row=27, sticky="w")
+
+copyMetadata = []
+def addCopyMetadata():
+    global copyMetadata
+    copyMetadata.append(Frame(copyMetadataFrame))
+    copyMetadata[-1].pack(side=TOP)
+    index = len(copyMetadata)-1
+    indexLabel = Label(copyMetadata[index], text=index) # To identify it! Shouldn't be shown
+    def remove():
+        for i, frame in enumerate(copyMetadata):
+            for child in frame.winfo_children():
+                if child.winfo_class() == "TLabel":
+                    if child["text"] == index:
+                        copyMetadata[i].destroy()
+                        copyMetadata.pop(i)
+                        break
+    removeButton = Button(copyMetadata[-1], text="🗑", width=2, command=remove)
+    removeButton.pack(side=LEFT, anchor=N)
+
+    copyMetadataEntry = Entry(copyMetadata[-1], width=50)
+    copyMetadataEntry.pack(side=LEFT, anchor=N)
+copyMetadataButton = Button(copyMetadataFrame, command=addCopyMetadata, text="Copy metadata for package")
+copyMetadataButton.pack(side=TOP, anchor=W)
 # Execute Tkinter
 root.mainloop()
