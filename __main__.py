@@ -474,10 +474,34 @@ def addPaths():
 
     pathsEntry = Entry(additionalPaths[-1], width=50)
     pathsEntry.pack(side=LEFT, anchor=N)
-
-    sourceDirEntry = Entry(additionalPaths[-1], width=50)
-    sourceDirEntry.pack(side=LEFT, anchor=N)
 addPathsButton = Button(addPathsFrame, command=addPaths, text="Add additional import paths")
 addPathsButton.pack(side=TOP, anchor=W)
+
+
+hiddenImportsFrame = Frame(flagsFrame)
+hiddenImportsFrame.grid(column=0, row=23, sticky="w")
+
+hiddenImports = []
+def addHiddenImports():
+    global hiddenImports
+    hiddenImports.append(Frame(hiddenImportsFrame))
+    hiddenImports[-1].pack(side=TOP)
+    index = len(hiddenImports)-1
+    indexLabel = Label(hiddenImports[index], text=index) # To identify it! Shouldn't be shown
+    def remove():
+        for i, frame in enumerate(hiddenImports):
+            for child in frame.winfo_children():
+                if child.winfo_class() == "TLabel":
+                    if child["text"] == index:
+                        hiddenImports[i].destroy()
+                        hiddenImports.pop(i)
+                        break
+    removeButton = Button(hiddenImports[-1], text="🗑", width=2, command=remove)
+    removeButton.pack(side=LEFT, anchor=N)
+
+    hiddenImportsEntry = Entry(hiddenImports[-1], width=50)
+    hiddenImportsEntry.pack(side=LEFT, anchor=N)
+hiddenImportsButton = Button(hiddenImportsFrame, command=addHiddenImports, text="Add a hidden import")
+hiddenImportsButton.pack(side=TOP, anchor=W)
 # Execute Tkinter
 root.mainloop()
