@@ -716,5 +716,31 @@ def addRuntimeHook():
     runtimeHookEntry.pack(side=LEFT, anchor=N)
 runtimeHookButton = Button(runtimeHookFrame, command=addRuntimeHook, text="Add a path to a custom runtime hook file")
 runtimeHookButton.pack(side=TOP, anchor=W)
+
+excludeModuleFrame = Frame(flagsFrame)
+excludeModuleFrame.grid(column=0, row=32, sticky="w")
+
+excludeModule = []
+def addExcludeModule():
+    global excludeModule
+    excludeModule.append(Frame(excludeModuleFrame))
+    excludeModule[-1].pack(side=TOP, anchor=W)
+    index = len(excludeModule)-1
+    indexLabel = Label(excludeModule[index], text=index) # To identify it! Shouldn't be shown
+    def remove():
+        for i, frame in enumerate(excludeModule):
+            for child in frame.winfo_children():
+                if child.winfo_class() == "TLabel":
+                    if child["text"] == index:
+                        excludeModule[i].destroy()
+                        excludeModule.pop(i)
+                        break
+    removeButton = Button(excludeModule[-1], text="🗑", width=2, command=remove)
+    removeButton.pack(side=LEFT, anchor=W)
+
+    excludeModuleEntry = Entry(excludeModule[-1], width=50)
+    excludeModuleEntry.pack(side=LEFT, anchor=W)
+excludeModuleButton = Button(excludeModuleFrame, command=addExcludeModule, text="Add module (the Python name, not the path name) that will be ignored")
+excludeModuleButton.pack(side=TOP, anchor=W)
 # Execute Tkinter
 root.mainloop()
