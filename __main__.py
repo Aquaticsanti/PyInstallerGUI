@@ -635,5 +635,32 @@ def addCopyMetadata():
     copyMetadataEntry.pack(side=LEFT, anchor=N)
 copyMetadataButton = Button(copyMetadataFrame, command=addCopyMetadata, text="Copy metadata for package")
 copyMetadataButton.pack(side=TOP, anchor=W)
+
+
+copyMetadataRecurseFrame = Frame(flagsFrame)
+copyMetadataRecurseFrame.grid(column=0, row=29, sticky="w")
+
+copyMetadataRecurse = []
+def addCopyMetadataRecurse():
+    global copyMetadataRecurse
+    copyMetadataRecurse.append(Frame(copyMetadataRecurseFrame))
+    copyMetadataRecurse[-1].pack(side=TOP)
+    index = len(copyMetadataRecurse)-1
+    indexLabel = Label(copyMetadataRecurse[index], text=index) # To identify it! Shouldn't be shown
+    def remove():
+        for i, frame in enumerate(copyMetadataRecurse):
+            for child in frame.winfo_children():
+                if child.winfo_class() == "TLabel":
+                    if child["text"] == index:
+                        copyMetadataRecurse[i].destroy()
+                        copyMetadataRecurse.pop(i)
+                        break
+    removeButton = Button(copyMetadataRecurse[-1], text="🗑", width=2, command=remove)
+    removeButton.pack(side=LEFT, anchor=N)
+
+    copyMetadataRecurseEntry = Entry(copyMetadataRecurse[-1], width=50)
+    copyMetadataRecurseEntry.pack(side=LEFT, anchor=N)
+copyMetadataRecurseButton = Button(copyMetadataRecurseFrame, command=addCopyMetadataRecurse, text="Recursively copy metadata for package")
+copyMetadataRecurseButton.pack(side=TOP, anchor=W)
 # Execute Tkinter
 root.mainloop()
