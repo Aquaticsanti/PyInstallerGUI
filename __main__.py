@@ -9,7 +9,7 @@ root = Tk()
 root.iconphoto(True, PhotoImage(file="pyinstaller-default.png"))
 style = Style()
 root.title("PyInstallerGUI")
-root.geometry('825x605')
+root.geometry('825x630')
 root.resizable(False, False)
 
 canvas = Canvas(root, width=root.winfo_width()-20, height=root.winfo_height(), highlightthickness=0)
@@ -749,6 +749,32 @@ def addExcludeModule():
     excludeModuleEntry.pack(side=LEFT, anchor=W)
 excludeModuleButton = Button(excludeModuleFrame, command=addExcludeModule, text="Add module (the Python name, not the path name) that will be ignored")
 excludeModuleButton.pack(side=TOP, anchor=W)
+
+customArgFrame = Frame(rightFrame)
+customArgFrame.grid(column=0, row=33, sticky="w")
+
+customArg = []
+def addCustomArg():
+    global customArg
+    customArg.append(Frame(customArgFrame))
+    customArg[-1].pack(side=TOP, anchor=W)
+    index = len(customArg)-1
+    indexLabel = Label(customArg[index], text=index) # To identify it! Shouldn't be shown
+    def remove():
+        for i, frame in enumerate(customArg):
+            for child in frame.winfo_children():
+                if child.winfo_class() == "TLabel":
+                    if child["text"] == index:
+                        customArg[i].destroy()
+                        customArg.pop(i)
+                        break
+    removeButton = Button(customArg[-1], text="🗑", width=2, command=remove)
+    removeButton.pack(side=LEFT, anchor=W)
+
+    customArgEntry = Entry(customArg[-1], width=50)
+    customArgEntry.pack(side=LEFT, anchor=W)
+customArgButton = Button(customArgFrame, command=addCustomArg, text="Add custom argument")
+customArgButton.pack(side=TOP, anchor=W)
 
 def checkRequiredEntries(event=None):
     if all([
