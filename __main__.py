@@ -236,6 +236,7 @@ def removeHideConsole():
         hideConsoleFrame.grid(column=0, row=9, sticky="w")
         noWindowedTracebackFrame.grid_remove()
         noWindowedTraceback.set(False)
+        hideConsoleLevel.set("None")
     else:
         hideConsoleFrame.grid_remove()
         noWindowedTracebackFrame.grid(column=0, row=10, sticky="w")
