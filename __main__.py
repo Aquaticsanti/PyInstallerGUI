@@ -49,8 +49,8 @@ def openScript():
         pass
     else:
         scriptLocation.set(file.name)
-        distpath.set(f"{file.name.rsplit("/", 1)[0]}/.dist")
-        workpath.set(f"{file.name.rsplit("/", 1)[0]}/.build")
+        distpath.set(f"{file.name.rsplit("/", 1)[0]}/dist")
+        workpath.set(f"{file.name.rsplit("/", 1)[0]}/build")
         specpath.set(file.name.rsplit("/", 1)[0])
         checkRequiredEntries()
 
