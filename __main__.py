@@ -40,7 +40,7 @@ frame.bind(
 
 def openScript():
     global scriptLocationEntry
-    file = askopenfile(filetypes=[("Python script file", ".py", ".pyw"), ("PyInstaller spec files", ".spec")])
+    file = askopenfile(filetypes=[("Python script file", "*.py *.pyw"), ("PyInstaller spec files", "*.spec")])
     if file is None:
         pass
     else:
