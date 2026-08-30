@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter.filedialog import *
+from tkinter.simpledialog import *
 from tkinter.scrolledtext import *
 from tkinter.font import *
 from tkinter.ttk import *
@@ -51,6 +52,7 @@ def openScript():
         distpath.set(f"{file.name.rsplit("/", 1)[0]}/.dist")
         workpath.set(f"{file.name.rsplit("/", 1)[0]}/.build")
         specpath.set(file.name.rsplit("/", 1)[0])
+        checkRequiredEntries()
 
 scriptLocationFrame = Frame(frame)
 scriptLocationFrame.pack(side=TOP)
@@ -806,15 +808,33 @@ buildButtonFont.configure(size=28, weight=BOLD)
 style.configure("BuildButton.TButton", font=buildButtonFont)
 
 def startBuild():
+    def cancelBuild():
+        cancelDialogue = SimpleDialog(root, text="Cancel build?", buttons=["Yes", "No"], default=1, cancel=1, title="Cancel build?")
+        cancelConfirmation = cancelDialogue.go()
+        if cancelConfirmation == 0:
+            process.terminate()
+            cancelButton.config(state=DISABLED)
+            output.config(state="normal")
+            output.insert(END, "Process terminated by user", "error")
+            output.see(END)
+            output.config(state="disabled")
+            return
+        else:
+            cancelButton.config(state=NORMAL)
+            return
     def addOutput(line):
+        # Also sets cancel button to enabled/disabled
         output.config(state="normal")
         if "ERROR" in line:
             output.insert(END, line, "error")
+            cancelButton.config(state=DISABLED)
         else:
             output.insert(END, line)
+            cancelButton.config(state=NORMAL)
         output.see(END)
         output.config(state="disabled")
     def runInThread():
+        global process
         process = subprocess.Popen(
                 args,
                 stdout=subprocess.PIPE,
@@ -823,12 +843,15 @@ def startBuild():
         for line in process.stdout:
             root.after(0, addOutput, line)
         process.wait()
-        
+    cancelButtonFont = nametofont(style.lookup("TButton", "font")).copy()
+    cancelButtonFont.configure(weight=BOLD)
+    cancelButton = Button(notScriptLocationFrame, text="Cancel", command=cancelBuild, state=NORMAL)
+    cancelButton.grid(column=0, row=103, columnspan=2)
     output = ScrolledText(notScriptLocationFrame, state="disabled")
     boldOutput = nametofont(output.cget("font")).copy()
     boldOutput.configure(weight=BOLD)
     output.tag_config("error", foreground="red", font=boldOutput)
-    output.grid(column=0, row=103, columnspan=2)
+    output.grid(column=0, row=104, columnspan=2)
     args = ["pyinstaller",
             scriptLocation.get(),
             "--distpath", distpath.get(), 
