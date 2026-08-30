@@ -6,6 +6,7 @@ from tkinter.font import *
 from tkinter.ttk import *
 import subprocess
 import threading
+import webbrowser
 from PIL import Image, ImageTk
 
 # create root window
@@ -834,6 +835,9 @@ def startBuild():
         if "error" in line.lower():
             output.insert(END, line, "error")
             cancelButton.config(state=DISABLED)
+        elif "build complete" in line.lower():
+            output.insert(END, line, "success")
+            cancelButton.config(state=DISABLED)
         else:
             output.insert(END, line)
             cancelButton.config(state=NORMAL)
@@ -857,6 +861,7 @@ def startBuild():
     boldOutput = nametofont(output.cget("font")).copy()
     boldOutput.configure(weight=BOLD)
     output.tag_config("error", foreground="red", font=boldOutput)
+    output.tag_config("success", foreground="green", font=boldOutput)
     output.grid(column=0, row=104, columnspan=2)
     canvas.update_idletasks()
     canvas.configure(scrollregion=canvas.bbox("all"))
