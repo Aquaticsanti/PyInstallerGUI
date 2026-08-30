@@ -808,6 +808,13 @@ buildButtonFont.configure(size=28, weight=BOLD)
 style.configure("BuildButton.TButton", font=buildButtonFont)
 
 def startBuild():
+    def smoothScroll():
+        # This function was partially generated with AI
+        current = canvas.yview()[0]
+        target = 1.0
+        if current < target:
+            canvas.yview_moveto(current + 0.02)
+            canvas.after(10, smoothScroll)
     def cancelBuild():
         cancelDialogue = SimpleDialog(root, text="Cancel build?", buttons=["Yes", "No"], default=1, cancel=1, title="Cancel build?")
         cancelConfirmation = cancelDialogue.go()
@@ -852,6 +859,7 @@ def startBuild():
     boldOutput.configure(weight=BOLD)
     output.tag_config("error", foreground="red", font=boldOutput)
     output.grid(column=0, row=104, columnspan=2)
+    canvas.after_idle(smoothScroll)
     args = ["pyinstaller",
             scriptLocation.get(),
             "--distpath", distpath.get(), 
