@@ -825,7 +825,7 @@ def startBuild():
     def addOutput(line):
         # Also sets cancel button to enabled/disabled
         output.config(state="normal")
-        if "ERROR" in line:
+        if "erorr" in line.lower():
             output.insert(END, line, "error")
             cancelButton.config(state=DISABLED)
         else:
@@ -898,9 +898,9 @@ def startBuild():
             tempStr = ""
             for child in frame.winfo_children():
                 if child.winfo_name() == "adddatasource":
-                    tempStr = f"{tempStr}{child.get()}:"
+                    tempStr = f"{tempStr}{child.get().replace("\"", "")}:"
                 elif child.winfo_name() == "adddatadest":
-                    tempStr = f"{tempStr}{child.get()}"
+                    tempStr = f"{tempStr}{child.get().replace("\"", "")}"
             args.append("--add-data")
             args.append(tempStr)
     if len(additionalBinary) != 0:
@@ -908,9 +908,9 @@ def startBuild():
             tempStr = ""
             for child in frame.winfo_children():
                 if child.winfo_name() == "addbinsource":
-                    tempStr = f"{tempStr}\"{child.get()}\":"
+                    tempStr = f"{tempStr}{child.get().replace("\"", "")}:"
                 elif child.winfo_name() == "addbindest":
-                    tempStr = f"{tempStr}\"{child.get()}\""
+                    tempStr = f"{tempStr}{child.get().replace("\"", "")}"
             args.append("--add-binary")
             args.append(tempStr)
     if len(additionalPaths) != 0:
@@ -928,7 +928,7 @@ def startBuild():
                 if child.winfo_name() == "addhiddenimport":
                     tempStr = f"{child.get()}"
             args.append("--hidden-import")
-            args.append(tempStr)
+            args.append(tempStr.replace("\"", ""))
     if len(collectSubmodules) != 0:
         for frame in collectSubmodules:
             tempStr = ""
@@ -936,7 +936,7 @@ def startBuild():
                 if child.winfo_name() == "addcollectsubmodule":
                     tempStr = f"{child.get()}"
             args.append("--collect-submodules")
-            args.append(tempStr)
+            args.append(tempStr.replace("\"", ""))
     if len(collectData) != 0:
         for frame in collectData:
             tempStr = ""
@@ -944,7 +944,7 @@ def startBuild():
                 if child.winfo_name() == "addcollectdata":
                     tempStr = f"{child.get()}"
             args.append("--collect-data")
-            args.append(tempStr)
+            args.append(tempStr.replace("\"", ""))
     if len(collectBinaries) != 0:
         for frame in collectBinaries:
             tempStr = ""
@@ -952,7 +952,7 @@ def startBuild():
                 if child.winfo_name() == "addcollectbin":
                     tempStr = f"{child.get()}"
             args.append("--collect-binaries")
-            args.append(tempStr)
+            args.append(tempStr.replace("\"", ""))
     if len(collectAll) != 0:
         for frame in collectAll:
             tempStr = ""
@@ -960,7 +960,7 @@ def startBuild():
                 if child.winfo_name() == "addcollectall":
                     tempStr = f"{child.get()}"
             args.append("--collect-all")
-            args.append(tempStr)
+            args.append(tempStr.replace("\"", ""))
     if len(copyMetadata) != 0:
         for frame in copyMetadata:
             tempStr = ""
@@ -968,7 +968,7 @@ def startBuild():
                 if child.winfo_name() == "addcopymeta":
                     tempStr = f"{child.get()}"
             args.append("--copy-metadata")
-            args.append(tempStr)
+            args.append(tempStr.replace("\"", ""))
     if len(copyMetadataRecurse) != 0:
         for frame in copyMetadataRecurse:
             tempStr = ""
@@ -976,7 +976,7 @@ def startBuild():
                 if child.winfo_name() == "addcopymetarecursive":
                     tempStr = f"{child.get()}"
             args.append("--recursive-copy-metadata")
-            args.append(tempStr)
+            args.append(tempStr.replace("\"", ""))
     if len(additionalHooksDir) != 0:
         for frame in additionalHooksDir:
             tempStr = ""
@@ -984,7 +984,7 @@ def startBuild():
                 if child.winfo_name() == "addadditionalhooksdir":
                     tempStr = f"{child.get()}"
             args.append("--additional-hooks-dir")
-            args.append(tempStr)
+            args.append(tempStr.replace("\"", ""))
     if len(runtimeHook) != 0:
         for frame in runtimeHook:
             tempStr = ""
@@ -992,7 +992,7 @@ def startBuild():
                 if child.winfo_name() == "addruntimehook":
                     tempStr = f"{child.get()}"
             args.append("--runtime-hook")
-            args.append(tempStr)
+            args.append(tempStr.replace("\"", ""))
     if len(excludeModule) != 0:
         for frame in excludeModule:
             tempStr = ""
@@ -1000,7 +1000,7 @@ def startBuild():
                 if child.winfo_name() == "addexcludemodule":
                     tempStr = f"{child.get()}"
             args.append("--exclude-module")
-            args.append(tempStr)
+            args.append(tempStr.replace("\"", ""))
     if len(customArg) != 0:
         for frame in customArg:
             tempStr = "" # Here it's technically a list, not a string, but idgaf
@@ -1008,7 +1008,7 @@ def startBuild():
                 if child.winfo_name() == "addcustomarg":
                     tempStr = child.get().split(" ", 1)
                     for i in tempStr:
-                        args.append(i)
+                        args.append(i.replace("\"", ""))
     output.config(state="normal")
     output.insert(END, f"Running command \"{" ".join(args)}\"\n")
     output.see(END)
