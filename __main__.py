@@ -832,7 +832,7 @@ def startBuild():
     def addOutput(line):
         # Also sets cancel button to enabled/disabled
         output.config(state="normal")
-        if "erorr" in line.lower():
+        if "error" in line.lower():
             output.insert(END, line, "error")
             cancelButton.config(state=DISABLED)
         else:
