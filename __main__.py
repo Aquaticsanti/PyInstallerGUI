@@ -837,6 +837,7 @@ def startBuild():
             cancelButton.config(state=DISABLED)
         elif "build complete" in line.lower():
             output.insert(END, line, "success")
+            webbrowser.open(distpath.get())
             cancelButton.config(state=DISABLED)
         else:
             output.insert(END, line)
