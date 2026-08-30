@@ -873,7 +873,7 @@ def startBuild():
     canvas.update_idletasks()
     canvas.configure(scrollregion=canvas.bbox("all"))
     canvas.after_idle(smoothScroll)
-    args = ["pyinstaller",
+    args = [getPath("helper.exe"),
             scriptLocation.get(),
             "--distpath", distpath.get(), 
             "--workpath", workpath.get(),
