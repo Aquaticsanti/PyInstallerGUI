@@ -56,7 +56,8 @@ style.configure("Mandatory.TLabel", font=mandatoryFont)
 scriptLocationLabel = Label(scriptLocationFrame, text="Script File:", style="Mandatory.TLabel")
 scriptLocationLabel.pack(side=LEFT, anchor=N)
 
-scriptLocationEntry = Entry(scriptLocationFrame, width=90)
+scriptLocation = StringVar()
+scriptLocationEntry = Entry(scriptLocationFrame, width=90, textvariable=scriptLocation)
 scriptLocationEntry.pack(side=LEFT, anchor=N)
 
 scripLocationOpenButton = Button(scriptLocationFrame, text="Open", command=openScript)
@@ -74,7 +75,8 @@ appNameFrame.grid(column=0, row=0, sticky=N)
 appNameLabel = Label(appNameFrame, text="App Name:")
 appNameLabel.pack(side=LEFT, anchor=N)
 
-appNameEntry = Entry(appNameFrame, width=30)
+appName = StringVar()
+appNameEntry = Entry(appNameFrame, width=30, textvariable=appName)
 appNameEntry.pack(side=LEFT, anchor=N)
 
 
@@ -117,7 +119,8 @@ distpathFrame.grid(column=0, row=0, sticky="w")
 distpathLabel = Label(distpathFrame, text="Bundled app destination:", style="Mandatory.TLabel")
 distpathLabel.pack(side=LEFT)
 
-distpathEntry = Entry(distpathFrame, width=32)
+distpath = StringVar()
+distpathEntry = Entry(distpathFrame, width=32, textvariable=distpath)
 distpathEntry.pack(side=LEFT)
 
 distpathOpenButton = Button(distpathFrame, text="Open", command=getDistFolder)
@@ -139,7 +142,8 @@ workpathFrame.grid(column=0, row=1, sticky="w")
 workpathLabel = Label(workpathFrame, text="Temporary files destination:", style="Mandatory.TLabel")
 workpathLabel.pack(side=LEFT)
 
-workpathEntry = Entry(workpathFrame, width=30)
+workpath = StringVar()
+workpathEntry = Entry(workpathFrame, width=30, textvariable=workpath)
 workpathEntry.pack(side=LEFT)
 
 workpathOpenButton = Button(workpathFrame, text="Open", command=getWorkFolder)
@@ -160,7 +164,8 @@ specpathFrame.grid(column=0, row=2, sticky="w")
 specpathLabel = Label(specpathFrame, text=".spec file destination:", style="Mandatory.TLabel")
 specpathLabel.pack(side=LEFT)
 
-specpathEntry = Entry(specpathFrame, width=36)
+specpath = StringVar()
+specpathEntry = Entry(specpathFrame, width=36, textvariable=specpath)
 specpathEntry.pack(side=LEFT)
 
 specpathOpenButton = Button(specpathFrame, text="Open", command=getspecFolder)
@@ -303,7 +308,8 @@ def openVersionFile():
 
 VersionFileFrame = Frame(rightFrame)
 
-VersionFileEntry = Entry(VersionFileFrame, width=60)
+VersionFile = StringVar()
+VersionFileEntry = Entry(VersionFileFrame, width=60, textvariable=VersionFile)
 VersionFileEntry.pack(side=LEFT)
 
 VersionFileOpenButton = Button(VersionFileFrame, text="Open", command=openVersionFile)
@@ -336,7 +342,8 @@ def openManifestFile():
 
 ManifestFileFrame = Frame(rightFrame)
 
-ManifestFileEntry = Entry(ManifestFileFrame, width=60)
+ManifestFile = StringVar()
+ManifestFileEntry = Entry(ManifestFileFrame, width=60, textvariable=ManifestFile)
 ManifestFileEntry.pack(side=LEFT)
 
 ManifestFileOpenButton = Button(ManifestFileFrame, text="Open", command=openManifestFile)
@@ -371,7 +378,8 @@ def openSplashFile():
 
 SplashFileFrame = Frame(rightFrame)
 
-SplashFileEntry = Entry(SplashFileFrame, width=60)
+SplashFile = StringVar()
+SplashFileEntry = Entry(SplashFileFrame, width=60, textvariable=SplashFile)
 SplashFileEntry.pack(side=LEFT)
 
 SplashFileOpenButton = Button(SplashFileFrame, text="Open", command=openSplashFile)
@@ -412,13 +420,13 @@ def addData():
     sourceDirLabel = Label(additionalData[-1], text="Source:")
     sourceDirLabel.pack(side=LEFT, anchor=N)
 
-    sourceDirEntry = Entry(additionalData[-1], width=25)
+    sourceDirEntry = Entry(additionalData[-1], width=25, name="adddatasource")
     sourceDirEntry.pack(side=LEFT, anchor=N)
 
     destinationDirLabel = Label(additionalData[-1], text="Destination:")
     destinationDirLabel.pack(side=LEFT, anchor=N)
 
-    destinationDirEntry = Entry(additionalData[-1], width=25)
+    destinationDirEntry = Entry(additionalData[-1], width=25, name="adddatadest")
     destinationDirEntry.pack(side=LEFT, anchor=N)
 addDataButton = Button(addDataFrame, command=addData, text="Add additional files")
 addDataButton.pack(side=TOP, anchor=W)
@@ -447,13 +455,13 @@ def addBinary():
     sourceDirLabel = Label(additionalBinary[-1], text="Source:")
     sourceDirLabel.pack(side=LEFT, anchor=N)
 
-    sourceDirEntry = Entry(additionalBinary[-1], width=25)
+    sourceDirEntry = Entry(additionalBinary[-1], width=25, name="addbinsource")
     sourceDirEntry.pack(side=LEFT, anchor=N)
 
     destinationDirLabel = Label(additionalBinary[-1], text="Destination:")
     destinationDirLabel.pack(side=LEFT, anchor=N)
 
-    destinationDirEntry = Entry(additionalBinary[-1], width=25)
+    destinationDirEntry = Entry(additionalBinary[-1], width=25, name="addbindest")
     destinationDirEntry.pack(side=LEFT, anchor=N)
 addBinaryButton = Button(addBinaryFrame, command=addBinary, text="Add additional binary file")
 addBinaryButton.pack(side=TOP, anchor=W)
@@ -480,7 +488,7 @@ def addPaths():
     removeButton = Button(additionalPaths[-1], text="🗑", width=2, command=remove)
     removeButton.pack(side=LEFT, anchor=N)
 
-    pathsEntry = Entry(additionalPaths[-1], width=50)
+    pathsEntry = Entry(additionalPaths[-1], width=50, name="addpath")
     pathsEntry.pack(side=LEFT, anchor=N)
 addPathsButton = Button(addPathsFrame, command=addPaths, text="Add additional import paths")
 addPathsButton.pack(side=TOP, anchor=W)
@@ -507,7 +515,7 @@ def addHiddenImports():
     removeButton = Button(hiddenImports[-1], text="🗑", width=2, command=remove)
     removeButton.pack(side=LEFT, anchor=N)
 
-    hiddenImportsEntry = Entry(hiddenImports[-1], width=50)
+    hiddenImportsEntry = Entry(hiddenImports[-1], width=50, name="addhiddenimport")
     hiddenImportsEntry.pack(side=LEFT, anchor=N)
 hiddenImportsButton = Button(hiddenImportsFrame, command=addHiddenImports, text="Add a hidden import")
 hiddenImportsButton.pack(side=TOP, anchor=W)
@@ -533,7 +541,7 @@ def addCollectSubmodules():
     removeButton = Button(collectSubmodules[-1], text="🗑", width=2, command=remove)
     removeButton.pack(side=LEFT, anchor=N)
 
-    collectSubmodulesEntry = Entry(collectSubmodules[-1], width=50)
+    collectSubmodulesEntry = Entry(collectSubmodules[-1], width=50, name="addcollectsubmodule")
     collectSubmodulesEntry.pack(side=LEFT, anchor=N)
 collectSubmodulesButton = Button(collectSubmodulesFrame, command=addCollectSubmodules, text="Collect all submodules from module")
 collectSubmodulesButton.pack(side=TOP, anchor=W)
@@ -559,7 +567,7 @@ def addCollectData():
     removeButton = Button(collectData[-1], text="🗑", width=2, command=remove)
     removeButton.pack(side=LEFT, anchor=N)
 
-    collectDataEntry = Entry(collectData[-1], width=50)
+    collectDataEntry = Entry(collectData[-1], width=50, name="addcollectdata")
     collectDataEntry.pack(side=LEFT, anchor=N)
 collectDataButton = Button(collectDataFrame, command=addCollectData, text="Collect all data from module")
 collectDataButton.pack(side=TOP, anchor=W)
@@ -586,7 +594,7 @@ def addCollectBinaries():
     removeButton = Button(collectBinaries[-1], text="🗑", width=2, command=remove)
     removeButton.pack(side=LEFT, anchor=N)
 
-    collectBinariesEntry = Entry(collectBinaries[-1], width=50)
+    collectBinariesEntry = Entry(collectBinaries[-1], width=50, name="addcollectbin")
     collectBinariesEntry.pack(side=LEFT, anchor=N)
 collectBinariesButton = Button(collectBinariesFrame, command=addCollectBinaries, text="Collect all binaries from module")
 collectBinariesButton.pack(side=TOP, anchor=W)
@@ -612,7 +620,7 @@ def addCollectAll():
     removeButton = Button(collectAll[-1], text="🗑", width=2, command=remove)
     removeButton.pack(side=LEFT, anchor=N)
 
-    collectAllEntry = Entry(collectAll[-1], width=50)
+    collectAllEntry = Entry(collectAll[-1], width=50, name="addcollectall")
     collectAllEntry.pack(side=LEFT, anchor=N)
 collectAllButton = Button(collectAllFrame, command=addCollectAll, text="Collect all (submodules, data files, and binaries) from module")
 collectAllButton.pack(side=TOP, anchor=W)
@@ -639,7 +647,7 @@ def addCopyMetadata():
     removeButton = Button(copyMetadata[-1], text="🗑", width=2, command=remove)
     removeButton.pack(side=LEFT, anchor=N)
 
-    copyMetadataEntry = Entry(copyMetadata[-1], width=50)
+    copyMetadataEntry = Entry(copyMetadata[-1], width=50, name="addcopymeta")
     copyMetadataEntry.pack(side=LEFT, anchor=N)
 copyMetadataButton = Button(copyMetadataFrame, command=addCopyMetadata, text="Copy metadata for package")
 copyMetadataButton.pack(side=TOP, anchor=W)
@@ -666,7 +674,7 @@ def addCopyMetadataRecurse():
     removeButton = Button(copyMetadataRecurse[-1], text="🗑", width=2, command=remove)
     removeButton.pack(side=LEFT, anchor=N)
 
-    copyMetadataRecurseEntry = Entry(copyMetadataRecurse[-1], width=50)
+    copyMetadataRecurseEntry = Entry(copyMetadataRecurse[-1], width=50, name="addcopymetarecursive")
     copyMetadataRecurseEntry.pack(side=LEFT, anchor=N)
 copyMetadataRecurseButton = Button(copyMetadataRecurseFrame, command=addCopyMetadataRecurse, text="Recursively copy metadata for package")
 copyMetadataRecurseButton.pack(side=TOP, anchor=W)
@@ -693,7 +701,7 @@ def addAdditionalHooksDir():
     removeButton = Button(additionalHooksDir[-1], text="🗑", width=2, command=remove)
     removeButton.pack(side=LEFT, anchor=N)
 
-    additionalHooksDirEntry = Entry(additionalHooksDir[-1], width=50)
+    additionalHooksDirEntry = Entry(additionalHooksDir[-1], width=50, name="addadditionalhooksdir")
     additionalHooksDirEntry.pack(side=LEFT, anchor=N)
 additionalHooksDirButton = Button(additionalHooksDirFrame, command=addAdditionalHooksDir, text="Add a path to search for hooks")
 additionalHooksDirButton.pack(side=TOP, anchor=W)
@@ -720,7 +728,7 @@ def addRuntimeHook():
     removeButton = Button(runtimeHook[-1], text="🗑", width=2, command=remove)
     removeButton.pack(side=LEFT, anchor=N)
 
-    runtimeHookEntry = Entry(runtimeHook[-1], width=50)
+    runtimeHookEntry = Entry(runtimeHook[-1], width=50, name="addruntimehook")
     runtimeHookEntry.pack(side=LEFT, anchor=N)
 runtimeHookButton = Button(runtimeHookFrame, command=addRuntimeHook, text="Add a path to a custom runtime hook file")
 runtimeHookButton.pack(side=TOP, anchor=W)
@@ -746,7 +754,7 @@ def addExcludeModule():
     removeButton = Button(excludeModule[-1], text="🗑", width=2, command=remove)
     removeButton.pack(side=LEFT, anchor=W)
 
-    excludeModuleEntry = Entry(excludeModule[-1], width=50)
+    excludeModuleEntry = Entry(excludeModule[-1], width=50, name="addexcludemodule")
     excludeModuleEntry.pack(side=LEFT, anchor=W)
 excludeModuleButton = Button(excludeModuleFrame, command=addExcludeModule, text="Add module (the Python name, not the path name) that will be ignored")
 excludeModuleButton.pack(side=TOP, anchor=W)
@@ -772,7 +780,7 @@ def addCustomArg():
     removeButton = Button(customArg[-1], text="🗑", width=2, command=remove)
     removeButton.pack(side=LEFT, anchor=W)
 
-    customArgEntry = Entry(customArg[-1], width=50)
+    customArgEntry = Entry(customArg[-1], width=50, name="addcustomarg")
     customArgEntry.pack(side=LEFT, anchor=W)
 customArgButton = Button(customArgFrame, command=addCustomArg, text="Add custom argument")
 customArgButton.pack(side=TOP, anchor=W)
