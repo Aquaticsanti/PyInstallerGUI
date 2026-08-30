@@ -7,11 +7,17 @@ from tkinter.ttk import *
 import subprocess
 import threading
 import webbrowser
+import sys, os
 from PIL import Image, ImageTk
 
 # create root window
 root = Tk()
-root.iconphoto(True, PhotoImage(file="pyinstaller-default.png"))
+def getPath(filename):
+    if getattr(sys, "frozen", False):
+        return os.path.join(sys._MEIPASS, filename)
+    else: # Technically, this else isn't needed, but I'll leave it here for readability
+        return os.path.join(os.getcwd(), filename)
+root.iconphoto(True, PhotoImage(file=getPath("pyinstaller-default.png")))
 style = Style()
 root.title("PyInstallerGUI")
 root.geometry('825x630')
@@ -101,7 +107,7 @@ def getAppLogo():
         appLogo = file
         appLogoImage = ImageTk.PhotoImage(Image.open(appLogo).resize((160, 160)))
         appLogoButton.config(image=appLogoImage)
-appLogo = "pyinstaller-default.png"
+appLogo = getPath("pyinstaller-default.png")
 appLogoImage = ImageTk.PhotoImage(Image.open(appLogo).resize((160, 160)))
 appLogoButton = Button(appLogoFrame, image=appLogoImage, compound=CENTER, text="", command=getAppLogo)
 appLogoButton.pack(side=TOP, anchor=N, ipadx=40, ipady=40)
@@ -891,7 +897,7 @@ def startBuild():
     if appName.get() != "":
         args.append("-n")
         args.append(appName.get())
-    if appLogo != "pyinstaller-default.png":
+    if appLogo != getPath("pyinstaller-default.png"):
         args.append("-i")
         args.append(appLogo)
     if VersionFile.get() != "":
