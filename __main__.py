@@ -1,7 +1,10 @@
 from tkinter import *
 from tkinter.filedialog import *
+from tkinter.scrolledtext import *
 from tkinter.font import *
 from tkinter.ttk import *
+import subprocess
+import threading
 from PIL import Image, ImageTk
 
 # create root window
@@ -801,7 +804,199 @@ for i in [scriptLocationEntry, distpathEntry, workpathEntry, specpathEntry]:
 buildButtonFont = nametofont(style.lookup("TButton", "font")).copy()
 buildButtonFont.configure(size=28, weight=BOLD)
 style.configure("BuildButton.TButton", font=buildButtonFont)
-buildButton = Button(notScriptLocationFrame, text="BUILD", style="BuildButton.TButton", width=15, state=DISABLED)
+
+def startBuild():
+    def addOutput(line):
+        output.config(state="normal")
+        if "ERROR" in line:
+            output.insert(END, line, "error")
+        else:
+            output.insert(END, line)
+        output.see(END)
+        output.config(state="disabled")
+    def runInThread():
+        process = subprocess.Popen(
+                args,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True)
+        for line in process.stdout:
+            root.after(0, addOutput, line)
+        process.wait()
+        
+    output = ScrolledText(notScriptLocationFrame, state="disabled")
+    boldOutput = nametofont(output.cget("font")).copy()
+    boldOutput.configure(weight=BOLD)
+    output.tag_config("error", foreground="red", font=boldOutput)
+    output.grid(column=0, row=103, columnspan=2)
+    args = ["pyinstaller",
+            scriptLocation.get(),
+            "--distpath", distpath.get(), 
+            "--workpath", workpath.get(),
+            "--specpath", specpath.get(),
+            "--log-level",logLevel.get()] # Although technically logLevel isn't a required argument, if unselected it's INFO, so it can be included harmlessly
+    if noConfirm.get() == True:
+        args.append("-y")
+    if clean.get() == True:
+        args.append("--clean")
+    if windowed.get() == True:
+        args.append("-w")
+    if UacAdmin.get() == True:
+        args.append("--uac-admin")
+    if UacUiAccess.get() == True:
+        args.append("--uac-uiaccess")
+    if bundleType.get() != "":
+        args.append(bundleType.get())
+    if debugLevel.get() != "None":
+        args.append("-d")
+        args.append(debugLevel.get().lower())
+    if appName.get() != "":
+        args.append("-n")
+        args.append(appName.get())
+    if appLogo != "pyinstaller-default.png":
+        args.append("-i")
+        args.append(appLogo)
+    if VersionFile.get() != "":
+        args.append("--version-file")
+        args.append(VersionFile.get())
+    if ManifestFile.get() != "":
+        args.append("--manifest")
+        args.append(ManifestFile.get())
+    if AddSplashFile.get() == True:
+        args.append("--splash")
+        args.append(SplashFile.get())
+        args.append("--splash-center")
+        args.append(splashCenter.get().lower())
+    if hideConsoleLevel.get() != "None":
+        args.append("--hide-console")
+        args.append(hideConsoleLevel.get().lower().replace(" ", "-"))
+    if len(additionalData) != 0:
+        for frame in additionalData:
+            tempStr = ""
+            for child in frame.winfo_children():
+                if child.winfo_name() == "adddatasource":
+                    tempStr = f"{tempStr}{child.get()}:"
+                elif child.winfo_name() == "adddatadest":
+                    tempStr = f"{tempStr}{child.get()}"
+            args.append("--add-data")
+            args.append(tempStr)
+    if len(additionalBinary) != 0:
+        for frame in additionalBinary:
+            tempStr = ""
+            for child in frame.winfo_children():
+                if child.winfo_name() == "addbinsource":
+                    tempStr = f"{tempStr}\"{child.get()}\":"
+                elif child.winfo_name() == "addbindest":
+                    tempStr = f"{tempStr}\"{child.get()}\""
+            args.append("--add-binary")
+            args.append(tempStr)
+    if len(additionalPaths) != 0:
+        for frame in additionalPaths:
+            tempStr = ""
+            for child in frame.winfo_children():
+                if child.winfo_name() == "addpath":
+                    tempStr = f"{child.get()}"
+            args.append("--paths")
+            args.append(tempStr)
+    if len(hiddenImports) != 0:
+        for frame in hiddenImports:
+            tempStr = ""
+            for child in frame.winfo_children():
+                if child.winfo_name() == "addhiddenimport":
+                    tempStr = f"{child.get()}"
+            args.append("--hidden-import")
+            args.append(tempStr)
+    if len(collectSubmodules) != 0:
+        for frame in collectSubmodules:
+            tempStr = ""
+            for child in frame.winfo_children():
+                if child.winfo_name() == "addcollectsubmodule":
+                    tempStr = f"{child.get()}"
+            args.append("--collect-submodules")
+            args.append(tempStr)
+    if len(collectData) != 0:
+        for frame in collectData:
+            tempStr = ""
+            for child in frame.winfo_children():
+                if child.winfo_name() == "addcollectdata":
+                    tempStr = f"{child.get()}"
+            args.append("--collect-data")
+            args.append(tempStr)
+    if len(collectBinaries) != 0:
+        for frame in collectBinaries:
+            tempStr = ""
+            for child in frame.winfo_children():
+                if child.winfo_name() == "addcollectbin":
+                    tempStr = f"{child.get()}"
+            args.append("--collect-binaries")
+            args.append(tempStr)
+    if len(collectAll) != 0:
+        for frame in collectAll:
+            tempStr = ""
+            for child in frame.winfo_children():
+                if child.winfo_name() == "addcollectall":
+                    tempStr = f"{child.get()}"
+            args.append("--collect-all")
+            args.append(tempStr)
+    if len(copyMetadata) != 0:
+        for frame in copyMetadata:
+            tempStr = ""
+            for child in frame.winfo_children():
+                if child.winfo_name() == "addcopymeta":
+                    tempStr = f"{child.get()}"
+            args.append("--copy-metadata")
+            args.append(tempStr)
+    if len(copyMetadataRecurse) != 0:
+        for frame in copyMetadataRecurse:
+            tempStr = ""
+            for child in frame.winfo_children():
+                if child.winfo_name() == "addcopymetarecursive":
+                    tempStr = f"{child.get()}"
+            args.append("--recursive-copy-metadata")
+            args.append(tempStr)
+    if len(additionalHooksDir) != 0:
+        for frame in additionalHooksDir:
+            tempStr = ""
+            for child in frame.winfo_children():
+                if child.winfo_name() == "addadditionalhooksdir":
+                    tempStr = f"{child.get()}"
+            args.append("--additional-hooks-dir")
+            args.append(tempStr)
+    if len(runtimeHook) != 0:
+        for frame in runtimeHook:
+            tempStr = ""
+            for child in frame.winfo_children():
+                if child.winfo_name() == "addruntimehook":
+                    tempStr = f"{child.get()}"
+            args.append("--runtime-hook")
+            args.append(tempStr)
+    if len(excludeModule) != 0:
+        for frame in excludeModule:
+            tempStr = ""
+            for child in frame.winfo_children():
+                if child.winfo_name() == "addexcludemodule":
+                    tempStr = f"{child.get()}"
+            args.append("--exclude-module")
+            args.append(tempStr)
+    if len(customArg) != 0:
+        for frame in customArg:
+            tempStr = "" # Here it's technically a list, not a string, but idgaf
+            for child in frame.winfo_children():
+                if child.winfo_name() == "addcustomarg":
+                    tempStr = child.get().split(" ", 1)
+                    for i in tempStr:
+                        args.append(i)
+    output.config(state="normal")
+    output.insert(END, f"Running command \"{" ".join(args)}\"\n")
+    output.see(END)
+    output.config(state="disabled")
+    threading.Thread(
+        target=runInThread,
+        daemon=True
+    ).start()
+    
+
+buildButton = Button(notScriptLocationFrame, text="BUILD", style="BuildButton.TButton", width=15, state=DISABLED, command=startBuild)
 buildButton.grid(column=0, row=101, columnspan=2, pady=(15, 0))
 
 clarifyMandatoryLabel = Label(notScriptLocationFrame, text="(Underlined items are mandatory)")
