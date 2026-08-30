@@ -44,8 +44,7 @@ def openScript():
     if file is None:
         pass
     else:
-        scriptLocationEntry.delete(0, END)
-        scriptLocationEntry.insert(0, file.name)
+        scriptLocation.set(file.name)
 
 scriptLocationFrame = Frame(frame)
 scriptLocationFrame.pack(side=TOP)
@@ -110,8 +109,7 @@ def getDistFolder():
     if distFolder is None:
             pass
     else:
-        distpathEntry.delete(0, END)
-        distpathEntry.insert(0, distFolder)
+        distpath.set(distFolder)
 
 distpathFrame = Frame(rightFrame)
 distpathFrame.grid(column=0, row=0, sticky="w")
@@ -133,8 +131,7 @@ def getWorkFolder():
     if workFolder is None:
             pass
     else:
-        workpathEntry.delete(0, END)
-        workpathEntry.insert(0, workFolder)
+        workpath.set(workFolder)
 
 workpathFrame = Frame(rightFrame)
 workpathFrame.grid(column=0, row=1, sticky="w")
@@ -155,8 +152,7 @@ def getspecFolder():
     if specFolder is None:
             pass
     else:
-        specpathEntry.delete(0, END)
-        specpathEntry.insert(0, specFolder)
+        specpath.set(specFolder)
 
 specpathFrame = Frame(rightFrame)
 specpathFrame.grid(column=0, row=2, sticky="w")
