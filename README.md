@@ -1,4 +1,5 @@
-# ![PyInstallerGUI](logo-big.png)
+![PyInstallerGUI Big Logo](logo-big.png)
+# PyInstallerGUI
 An unofficial GUI wrapper for PyInstaller!
 
 
