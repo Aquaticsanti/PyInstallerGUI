@@ -10,6 +10,7 @@ import webbrowser
 import sys, os
 from PIL import Image, ImageTk
 
+print(os.getcwd())
 # create root window
 root = Tk()
 def getPath(filename):
@@ -873,7 +874,7 @@ def startBuild():
     canvas.update_idletasks()
     canvas.configure(scrollregion=canvas.bbox("all"))
     canvas.after_idle(smoothScroll)
-    args = [getPath("helper.exe"),
+    args = ["pyinstaller",
             scriptLocation.get(),
             "--distpath", distpath.get(), 
             "--workpath", workpath.get(),
