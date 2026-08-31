@@ -9,6 +9,7 @@ import threading
 import webbrowser
 import shutil
 import sys, os
+from pathlib import Path
 from PIL import Image, ImageTk
 if shutil.which("pyinstaller") == None:
     if shutil.which("python") == None and shutil.which("py") == None:
@@ -66,7 +67,6 @@ def openScript():
         workpath.set(f"{file.name.rsplit("/", 1)[0]}/build")
         specpath.set(file.name.rsplit("/", 1)[0])
         checkRequiredEntries()
-
 scriptLocationFrame = Frame(frame)
 scriptLocationFrame.pack(side=TOP)
 
@@ -188,6 +188,12 @@ specpathEntry.pack(side=LEFT)
 specpathOpenButton = Button(specpathFrame, text="Open", command=getspecFolder)
 specpathOpenButton.pack(side=LEFT, anchor=N)
 
+if len(sys.argv) > 1:
+    if Path(sys.argv[1]).is_file() and (sys.argv[1].replace("\"", "")[-2:] == "py" or sys.argv[1].replace("\"", "")[-3:] == "pyw"):
+        scriptLocation.set(sys.argv[1].replace("\"", ""))
+        distpath.set(f"{sys.argv[1].replace("\"", "").rsplit("/", 1)[0]}/dist")
+        workpath.set(f"{sys.argv[1].replace("\"", "").rsplit("/", 1)[0]}/build")
+        specpath.set(sys.argv[1].replace("\"", "").rsplit("/", 1)[0])
 noConfirmFrame = Frame(leftFrame)
 noConfirmFrame.grid(column=0, row=3, sticky="w")
 
