@@ -862,7 +862,8 @@ def startBuild():
                 args,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
-                text=True)
+                text=True,
+                creationflags=subprocess.CREATE_NO_WINDOW)
         for line in process.stdout:
             root.after(0, addOutput, line)
         process.wait()
