@@ -36,7 +36,7 @@ To build the .exe, use PyInstaller!
 git clone https://github.com/Aquaticsanti/PyInstallerGUI.git
 ```
 ```
-cd Pyinstaller
+cd PyinstallerGUI
 ```
 ```
 pyinstaller PyInstallerGUI.spec
