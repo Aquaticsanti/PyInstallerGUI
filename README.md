@@ -29,5 +29,17 @@ Got your interest? Head to the releases section and grab the [latest one](https:
 > [!IMPORTANT]
 > This program is only available for Windows 10/11, as I don't have the resources to build for other platforms.
 
+# Building
+To build the .exe, use PyInstaller!
+```
+git clone https://github.com/Aquaticsanti/PyInstallerGUI.git
+```
+```
+cd Pyinstaller
+```
+```
+pyinstaller PyInstallerGUI.spec
+```
+(You can 100% use the GUI for this, it's what I do, but you are not guaranteed to get the same results, unless you keep the same options)
 # Thanks for using PyInstallerGUI!
 (Not affiliated with PyInstaller or Python)
