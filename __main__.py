@@ -10,13 +10,12 @@ import webbrowser
 import shutil
 import sys, os
 from PIL import Image, ImageTk
-print(shutil.which("pyinstaller"))
 if shutil.which("pyinstaller") == None:
     if shutil.which("python") == None and shutil.which("py") == None:
         raise FileNotFoundError("Python is not installed on this system, please install it before running this program by going to python.org")
     else:
         raise FileNotFoundError("PyInstaller is not installed on this system, please install it before running this program by running 'python -m pip install pyinstaller'")
-print(os.getcwd())
+
 # create root window
 root = Tk()
 def getPath(filename):
