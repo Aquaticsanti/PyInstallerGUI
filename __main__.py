@@ -813,7 +813,7 @@ def checkRequiredEntries(event=None):
     len(scriptLocationEntry.get()) >= 7,
     len(distpathEntry.get()) >= 3,
     len(workpathEntry.get()) >= 3,
-    len(specpathEntry.get()) >= 3]):
+    len(specpathEntry.get()) >= 1]):
         buildButton.config(state="normal")
         clarifyMandatoryLabel.grid_forget()
     else:
