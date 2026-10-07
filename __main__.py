@@ -70,7 +70,7 @@ def openScript():
 scriptLocationFrame = Frame(frame)
 scriptLocationFrame.pack(side=TOP)
 
-mandatoryFont = nametofont(style.lookup("TLabel", "font")).copy()
+mandatoryFont = nametofont("TkDefaultFont").copy()
 mandatoryFont.configure(underline=True)
 style.configure("Mandatory.TLabel", font=mandatoryFont)
 scriptLocationLabel = Label(scriptLocationFrame, text="Script File:", style="Mandatory.TLabel")
@@ -822,7 +822,7 @@ def checkRequiredEntries(event=None):
 
 for i in [scriptLocationEntry, distpathEntry, workpathEntry, specpathEntry]:
     i.bind("<KeyRelease>", checkRequiredEntries)
-buildButtonFont = nametofont(style.lookup("TButton", "font")).copy()
+buildButtonFont = nametofont("TkDefaultFont").copy()
 buildButtonFont.configure(size=28, weight=BOLD)
 style.configure("BuildButton.TButton", font=buildButtonFont)
 
@@ -873,12 +873,12 @@ def startBuild():
         for line in process.stdout:
             root.after(0, addOutput, line)
         process.wait()
-    cancelButtonFont = nametofont(style.lookup("TButton", "font")).copy()
+    cancelButtonFont = nametofont("TkDefaultFont").copy()
     cancelButtonFont.configure(weight=BOLD)
     cancelButton = Button(notScriptLocationFrame, text="Cancel", command=cancelBuild, state=NORMAL)
     cancelButton.grid(column=0, row=103, columnspan=2)
     output = ScrolledText(notScriptLocationFrame, state="disabled")
-    boldOutput = nametofont(output.cget("font")).copy()
+    boldOutput = nametofont("TkDefaultFont")
     boldOutput.configure(weight=BOLD)
     output.tag_config("error", foreground="red", font=boldOutput)
     output.tag_config("success", foreground="green", font=boldOutput)
