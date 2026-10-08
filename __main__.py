@@ -11,14 +11,27 @@ import shutil
 import sys, os
 from pathlib import Path
 from PIL import Image, ImageTk
+# create root window
+root = Tk()
 if shutil.which("pyinstaller") == None:
     if shutil.which("python") == None and shutil.which("py") == None:
         raise FileNotFoundError("Python is not installed on this system, please install it before running this program by going to python.org")
     else:
-        raise FileNotFoundError("PyInstaller is not installed on this system, please install it before running this program by running 'python -m pip install pyinstaller'")
+        PyInstallerDialogue = SimpleDialog(root, text="PyInstaller is needed for this program. Download it?", buttons=["Yes", "No"], default=1, cancel=1, title="PyInstaller missing")
+        PyInstallerConfirmation = PyInstallerDialogue.go()
+        if PyInstallerConfirmation == 1:
+            raise FileNotFoundError("PyInstaller is not installed on this system, please install it before running this program by running 'python -m pip install pyinstaller'")
+        else:
+            if shutil.which("python") == None:
+                pythonPath = shutil.which("py")
+            else:
+                pythonPath = shutil.which("python")
+            subprocess.run([pythonPath, "-m", "pip", "install", "pyinstaller"],
+                            creationflags=subprocess.CREATE_NEW_CONSOLE) # AI suggested that. It works ig
+            subprocess.Popen([sys.executable]) # relaunch the program
+            sys.exit(0) # DIE
 
-# create root window
-root = Tk()
+
 def getPath(filename):
     if getattr(sys, "frozen", False):
         return os.path.join(sys._MEIPASS, filename)
