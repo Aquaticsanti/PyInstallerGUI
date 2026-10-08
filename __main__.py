@@ -9,13 +9,20 @@ import threading
 import webbrowser
 import shutil
 import sys, os
+import webbrowser
 from pathlib import Path
 from PIL import Image, ImageTk
 # create root window
 root = Tk()
 if shutil.which("pyinstaller") == None:
     if shutil.which("python") == None and shutil.which("py") == None:
-        raise FileNotFoundError("Python is not installed on this system, please install it before running this program by going to python.org")
+        PythonDialogue = SimpleDialog(root, text="Python is needed for this program. Download it?", buttons=["Yes", "No"], default=1, cancel=1, title="Python missing")
+        PythonConfirmation = PythonDialogue.go()
+        if PythonConfirmation == 1:
+            raise FileNotFoundError("Python is not installed on this system, please install it before running this program by going to python.org")
+        else:
+            webbrowser.open("https://www.python.org/downloads/")
+            sys.exit(0) # DIE
     else:
         PyInstallerDialogue = SimpleDialog(root, text="PyInstaller is needed for this program. Download it?", buttons=["Yes", "No"], default=1, cancel=1, title="PyInstaller missing")
         PyInstallerConfirmation = PyInstallerDialogue.go()
